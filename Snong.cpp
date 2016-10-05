@@ -5,18 +5,18 @@
 // Chapter 4 spacewar.cpp v1.0
 // Spacewar is the class we create.
 
-#include "spaceWar.h"
+#include "Snong.h"
 
 //=============================================================================
 // Constructor
 //=============================================================================
-Spacewar::Spacewar()
+Snong::Snong()
 {}
 
 //=============================================================================
 // Destructor
 //=============================================================================
-Spacewar::~Spacewar()
+Snong::~Snong()
 {
     releaseAll();           // call onLostDevice() for every graphics item
 }
@@ -25,7 +25,7 @@ Spacewar::~Spacewar()
 // Initializes the game
 // Throws GameError on error
 //=============================================================================
-void Spacewar::initialize(HWND hwnd)
+void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
@@ -35,32 +35,32 @@ void Spacewar::initialize(HWND hwnd)
 //=============================================================================
 // Update all game items
 //=============================================================================
-void Spacewar::update()
+void Snong::update()
 {}
 
 //=============================================================================
 // Artificial Intelligence
 //=============================================================================
-void Spacewar::ai()
+void Snong::ai()
 {}
 
 //=============================================================================
 // Handle collisions
 //=============================================================================
-void Spacewar::collisions()
+void Snong::collisions()
 {}
 
 //=============================================================================
 // Render game items
 //=============================================================================
-void Spacewar::render()
+void Snong::render()
 {}
 
 //=============================================================================
 // The graphics device was lost.
 // Release all reserved video memory so graphics device may be reset.
 //=============================================================================
-void Spacewar::releaseAll()
+void Snong::releaseAll()
 {
     Game::releaseAll();
     return;
@@ -70,7 +70,7 @@ void Spacewar::releaseAll()
 // The grahics device has been reset.
 // Recreate all surfaces.
 //=============================================================================
-void Spacewar::resetAll()
+void Snong::resetAll()
 {
     Game::resetAll();
     return;

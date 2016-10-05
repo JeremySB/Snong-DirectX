@@ -89,8 +89,11 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="spacewar.cpp" />
+    <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="Snong.cpp" />
+    <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +101,11 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
-    <ClInclude Include="spacewar.h" />
+    <ClInclude Include="Snake.h" />
+    <ClInclude Include="Snong.h" />
+    <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,26 +3,28 @@
 // Charles Kelly
 // Chapter 4 spacewar.h v1.0
 
-#ifndef _SPACEWAR_H             // prevent multiple definitions if this 
-#define _SPACEWAR_H             // ..file is included in more than one place
+#ifndef _SNONG_H             // prevent multiple definitions if this 
+#define _SNONG_H             // ..file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "game.h"
+#include "Snake.h"
 
 //=============================================================================
 // Create game class
 //=============================================================================
-class Spacewar : public Game
+class Snong : public Game
 {
 private:
     // variables
+	Snake Player1, Player2;
 
 public:
     // Constructor
-    Spacewar();
+    Snong();
 
     // Destructor
-    virtual ~Spacewar();
+    virtual ~Snong();
 
     // Initialize the game
     void initialize(HWND hwnd);
