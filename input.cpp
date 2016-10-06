@@ -1,8 +1,7 @@
 // Programming 2D Games
 // Copyright (c) 2011 by: 
 // Charles Kelly
-// input.cpp v1.6
-// Last modified Feb-7-2013
+// input.cpp v1.0
 
 #include "input.h"
 
@@ -26,7 +25,6 @@ Input::Input()
     mouseY = 0;                         // screen Y
     mouseRawX = 0;                      // high-definition X
     mouseRawY = 0;                      // high-definition Y
-    mouseWheel = 0;                     // mouse wheel position
     mouseLButton = false;               // true if left mouse button is down
     mouseMButton = false;               // true if middle mouse button is down
     mouseRButton = false;               // true if right mouse button is down
@@ -38,8 +36,6 @@ Input::Input()
         controllers[i].vibrateTimeLeft = 0;
         controllers[i].vibrateTimeRight = 0;
     }
-    thumbstickDeadzone = GAMEPAD_THUMBSTICK_DEADZONE;    // default
-    triggerDeadzone = GAMEPAD_TRIGGER_DEADZONE;          // default
 }
 
 //=============================================================================
@@ -202,13 +198,9 @@ void Input::clear(UCHAR what)
         mouseY = 0;
         mouseRawX = 0;
         mouseRawY = 0;
-        mouseWheel = 0;
     }
     if(what & inputNS::TEXT_IN)
-    {
         clearTextIn();
-        clearCharIn();
-    }
 }
 
 //=============================================================================
@@ -239,16 +231,6 @@ void Input::mouseRawIn(LPARAM lParam)
         mouseRawX = raw->data.mouse.lLastX;
         mouseRawY = raw->data.mouse.lLastY;
     } 
-}
-
-//=============================================================================
-// Reads mouse wheel movement expressed in multiples of WHEEL_DELTA, which
-// is 120. A positive value indicates that the wheel was rotated away from the
-// user, a negative value indicates that the wheel was rotated toward the user.
-//=============================================================================
-void Input::mouseWheelIn(WPARAM wParam)
-{
-    mouseWheel = GET_WHEEL_DELTA_WPARAM(wParam);
 }
 
 //=============================================================================
@@ -285,124 +267,6 @@ void Input::readControllers()
 }
 
 //=============================================================================
-// Return value of controller n Left Trigger (0 through 255).
-// Trigger movement less than triggerDeadzone returns 0.
-// Return value is scaled to 0 through 255
-//=============================================================================
-BYTE Input::getGamepadLeftTrigger(UINT n) 
-{
-    BYTE value = getGamepadLeftTriggerUndead(n);
-    if(value > triggerDeadzone)             // if > dead zone
-        //adjust magnitude relative to the end of the dead zone
-        value = (value-triggerDeadzone)*255/
-        (255-triggerDeadzone);
-    else                                    // else, < dead zone
-        value = 0;
-    return value;
-}
-
-//=============================================================================
-// Return value of controller n Right Trigger (0 through 255).
-// Trigger movement less than triggerDeadzone returns 0.
-// Return value is scaled to 0 through 255
-//=============================================================================
-BYTE Input::getGamepadRightTrigger(UINT n) 
-{
-    BYTE value = getGamepadRightTriggerUndead(n);
-    if(value > triggerDeadzone)    // if > dead zone
-        //adjust magnitude relative to the end of the dead zone
-        value = (value-triggerDeadzone)*255/
-        (255-triggerDeadzone);
-    else                                    // else, < dead zone
-        value = 0;
-    return value;
-}
-
-//=============================================================================
-// Return value of controller n Left Thumbstick X (-32767 through 32767).
-// Stick movement less than thumbstickDeadzone returns 0.
-// Return value is scaled to -32768 through 32767
-//=============================================================================
-SHORT Input::getGamepadThumbLX(UINT n) 
-{
-    int x = getGamepadThumbLXUndead(n);
-    if(x > thumbstickDeadzone) // if +x outside dead zone
-        //adjust x relative to the deadzone and scale to 0 through 32767
-        x = (x-thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else if(x < -thumbstickDeadzone)   // if -x outside dead zone
-        //adjust y relative to the deadzone and scale to 0 through -32767
-        x = (x+thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else        // else, x inside dead zone
-        x = 0;  // return 0
-    return static_cast<SHORT>(x);
-}
-
-//=============================================================================
-// Return value of controller n Left Thumbstick Y (-32768 through 32767).
-// Stick movement less than thumbstickDeadzone returns 0.
-// Return value is scaled to -32768 through 32767
-//=============================================================================
-SHORT Input::getGamepadThumbLY(UINT n) 
-{
-    int y = getGamepadThumbLYUndead(n);
-    if(y > thumbstickDeadzone) // if +y outside dead zone
-        //adjust magnitude relative to the end of the dead zone
-        y = (y-thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else if(y < -thumbstickDeadzone)   // if -y outside dead zone
-        //adjust magnitude relative to the end of the dead zone
-        y = (y+thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else        // else, y inside dead zone
-        y = 0;  // return 0
-    return static_cast<SHORT>(y);
-}
-
-//=============================================================================
-// Return value of controller n Right Thumbstick X (-32768 through 32767).
-// Stick movement less than thumbstickDeadzone returns 0.
-// Return value is scaled to -32768 through 32767
-//=============================================================================
-SHORT Input::getGamepadThumbRX(UINT n) 
-{
-    int x = getGamepadThumbRXUndead(n);
-    if(x > thumbstickDeadzone) // if +x outside dead zone
-        //adjust magnitude relative to the end of the dead zone
-        x = (x-thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else if(x < -thumbstickDeadzone)   // if -x outside dead zone
-        //adjust magnitude relative to the end of the dead zone
-        x = (x+thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else        // else, x inside dead zone
-        x = 0;  // return 0
-    return static_cast<SHORT>(x);
-}
-
-//=============================================================================
-// Return value of controller n Right Thumbstick Y (-32768 through 32767).
-// Stick movement less than thumbstickDeadzone returns 0.
-// Return value is scaled to -32768 through 32767
-//=============================================================================
-SHORT Input::getGamepadThumbRY(UINT n) 
-{
-    int y = getGamepadThumbRYUndead(n);
-    if(y > thumbstickDeadzone) // if +y outside dead zone
-        //adjust magnitude relative to the end of the dead zone
-        y = (y-thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else if(y < -thumbstickDeadzone)   // if -y outside dead zone
-        //adjust magnitude relative to the end of the dead zone
-        y = (y+thumbstickDeadzone)*32767/
-        (32767-thumbstickDeadzone);
-    else        // else, y inside dead zone
-        y = 0;  // return 0
-    return static_cast<SHORT>(y);
-}
-
-//=============================================================================
 // Vibrate connected controllers
 //=============================================================================
 void Input::vibrateControllers(float frameTime)
@@ -427,4 +291,3 @@ void Input::vibrateControllers(float frameTime)
         }
     }
 }
-

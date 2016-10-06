@@ -1,8 +1,7 @@
 // Programming 2D Games
-// Copyright (c) 2011 by: 
+// Copyright (c) 2011,2012 by: 
 // Charles Kelly
-// input.h v1.8
-// Last modified April-12-2013
+// input.h v1.1
 
 #ifndef _INPUT_H                // Prevent multiple definitions if this 
 #define _INPUT_H                // file is included in more than one place
@@ -39,8 +38,8 @@ namespace inputNS
     const UCHAR KEYS_MOUSE_TEXT = KEYS_DOWN + KEYS_PRESSED + MOUSE + TEXT_IN;
 }
 
-const short GAMEPAD_THUMBSTICK_DEADZONE = (short)(0.20f * 0X7FFF);    // default to 20% of range as deadzone
-const short GAMEPAD_TRIGGER_DEADZONE = 20;                      // trigger range 0-255
+const DWORD GAMEPAD_THUMBSTICK_DEADZONE = (DWORD)(0.20f * 0X7FFF);    // default to 20% of range as deadzone
+const DWORD GAMEPAD_TRIGGER_DEADZONE = 30;                      // trigger range 0-255
 const DWORD MAX_CONTROLLERS = 4;                                // Maximum number of controllers supported by XInput
 
 // Bit corresponding to gamepad button in state.Gamepad.wButtons
@@ -78,8 +77,6 @@ private:
     bool newLine;                               // true on start of new line
     int  mouseX, mouseY;                        // mouse screen coordinates
     int  mouseRawX, mouseRawY;                  // high-definition mouse data
-    int  mouseWheel;                            // mouse wheel movement
-
     RAWINPUTDEVICE Rid[1];                      // for high-definition mouse
     bool mouseCaptured;                         // true if mouse captured
     bool mouseLButton;                          // true if left mouse button down
@@ -88,8 +85,6 @@ private:
     bool mouseX1Button;                         // true if X1 mouse button down
     bool mouseX2Button;                         // true if X2 mouse button down
     ControllerState controllers[MAX_CONTROLLERS];    // state of controllers
-    short thumbstickDeadzone;
-    short triggerDeadzone;
 
 public:
     // Constructor
@@ -129,7 +124,7 @@ public:
 
     // Clear specified input buffers where what is any combination of
     // KEYS_DOWN, KEYS_PRESSED, MOUSE, TEXT_IN or KEYS_MOUSE_TEXT.
-    // Use OR '|' operator to combine parameters.
+    // Use OR '|' operator to combine parmeters.
     void clear(UCHAR what);
 
     // Clears key, mouse and text input data
@@ -138,14 +133,8 @@ public:
     // Clear text input buffer
     void clearTextIn() {textIn.clear();}
 
-    // Clear last character entered
-    void clearCharIn()      {charIn = 0;}
-
     // Return text input as a string
     std::string getTextIn() {return textIn;}
-
-    // Set text input string
-    void setTextIn(std::string str) {textIn = str;}
 
     // Return last character entered
     char getCharIn()        {return charIn;}
@@ -156,9 +145,6 @@ public:
     // Reads raw mouse data into mouseRawX, mouseRawY
     // This routine is compatible with a high-definition mouse
     void mouseRawIn(LPARAM);
-
-    // Reads mouse wheel movement.
-    void mouseWheelIn(WPARAM);
 
     // Save state of mouse button
     void setMouseLButton(bool b) { mouseLButton = b; }
@@ -172,41 +158,19 @@ public:
     // Save state of mouse button
     void setMouseXButton(WPARAM wParam) {mouseX1Button = (wParam & MK_XBUTTON1) ? true:false;
                                          mouseX2Button = (wParam & MK_XBUTTON2) ? true:false;}
-
     // Return mouse X position
     int  getMouseX()        const { return mouseX; }
 
     // Return mouse Y position
     int  getMouseY()        const { return mouseY; }
 
-    // Return raw mouse X movement relative to previous position.
-    // Left is <0, Right is >0
+    // Return raw mouse X movement. Left is <0, Right is >0
     // Compatible with high-definition mouse.
-    int  getMouseRawX()
-    { 
-        int rawX = mouseRawX;
-        mouseRawX = 0;
-        return rawX; 
-    }
+    int  getMouseRawX()     const { return mouseRawX; }
 
-    // Return raw mouse Y movement relative to previous position.
-    // Up is <0, Down is >0
+    // Return raw mouse Y movement. Up is <0, Down is >0
     // Compatible with high-definition mouse.
-    int  getMouseRawY()
-    { 
-        int rawY = mouseRawY;
-        mouseRawY = 0;
-        return rawY; 
-    }
-
-    // Return mouse wheel movement relative to previous position.
-    // Forward is >0, Backward is <0, movement is in multiples of WHEEL_DATA (120).
-    int  getMouseWheel()
-    { 
-        int wheel = mouseWheel;
-        mouseWheel = 0;
-        return wheel; 
-    }
+    int  getMouseRawY()     const { return mouseRawY; }
 
     // Return state of left mouse button.
     bool getMouseLButton()  const { return mouseLButton; }
@@ -229,32 +193,12 @@ public:
     // Save input from connected game controllers.
     void readControllers();
 
-    // Set thumbstick deadzone
-    void setThumbstickDeadzone(short dz) { thumbstickDeadzone = abs(dz); }
-
-    // Set trigger deadzone
-    void setTriggerDeadzone(BYTE dz) { triggerDeadzone = dz; }
-
-    // Get thumbstick deadzone
-    short getThumbstickDeadzone() { return thumbstickDeadzone; }
-
-    // Get trigger deadzone
-    BYTE getTriggerDeadzone() { return static_cast<BYTE>(triggerDeadzone); }
-
     // Return state of specified game controller.
     const ControllerState* getControllerState(UINT n)
     {
         if(n > MAX_CONTROLLERS-1)
             n=MAX_CONTROLLERS-1;
         return &controllers[n];
-    }
-
-    // Return connection state of specified game controller
-    bool getGamepadConnected(UINT n)
-    {
-        if(n > MAX_CONTROLLERS-1)
-            n=MAX_CONTROLLERS-1;
-        return controllers[n].connected;
     }
 
     // Return state of controller n buttons.
@@ -377,88 +321,52 @@ public:
         return bool((controllers[n].state.Gamepad.wButtons&GAMEPAD_Y) != 0);
     }
 
-    // Return value of controller n Left Trigger (0 through 255).
-    // Trigger movement less than GAMEPAD_TRIGGER_DEADZONE returns 0.
-    // Return value is scaled to 0 through 255
-    BYTE getGamepadLeftTrigger(UINT n);
-
-    // Return value of controller n Left Trigger (0 through 255).
-    // Deadzone is not applied.
-    BYTE getGamepadLeftTriggerUndead(UINT n) 
+    // Return value of controller n Left Trigger.
+    BYTE getGamepadLeftTrigger(UINT n) 
     {
         if(n > MAX_CONTROLLERS-1)
             n=MAX_CONTROLLERS-1;
-        return controllers[n].state.Gamepad.bLeftTrigger;
+        return (controllers[n].state.Gamepad.bLeftTrigger);
     }
 
-    // Return value of controller n Right Trigger (0 through 255).
-    // Trigger movement less than GAMEPAD_TRIGGER_DEADZONE returns 0.
-    // Return value is scaled to 0 through 255
-    BYTE getGamepadRightTrigger(UINT n);
-
-    // Return value of controller n Right Trigger (0 through 255).
-    // Deadzone is not applied.
-    BYTE getGamepadRightTriggerUndead(UINT n) 
+    // Return value of controller n Right Trigger.
+    BYTE getGamepadRightTrigger(UINT n) 
     {
         if(n > MAX_CONTROLLERS-1)
             n=MAX_CONTROLLERS-1;
-        return controllers[n].state.Gamepad.bRightTrigger;
+        return (controllers[n].state.Gamepad.bRightTrigger);
     }
 
-    // Return value of controller n Left Thumbstick X (-32767 through 32767).
-    // Stick movement less than GAMEPAD_THUMBSTICK_DEADZONE returns 0.
-    // Return value is scaled to -32768 through 32767
-    SHORT getGamepadThumbLX(UINT n);
-
-    // Return value of controller n Left Thumbstick X (-32767 through 32767).
-    // Deadzone is not applied.
-    SHORT getGamepadThumbLXUndead(UINT n) 
+    // Return value of controller n Left Thumbstick X.
+    SHORT getGamepadThumbLX(UINT n) 
     {
         if(n > MAX_CONTROLLERS-1)
             n=MAX_CONTROLLERS-1;
-        return controllers[n].state.Gamepad.sThumbLX;
+        return (controllers[n].state.Gamepad.sThumbLX);
     }
 
-    // Return value of controller n Left Thumbstick Y (-32768 through 32767).
-    // Stick movement less than GAMEPAD_THUMBSTICK_DEADZONE returns 0.
-    // Return value is scaled to -32768 through 32767
-    SHORT getGamepadThumbLY(UINT n);
-
-    // Return value of controller n Left Thumbstick Y (-32768 through 32767).
-    // Deadzone is not applied.
-    SHORT getGamepadThumbLYUndead(UINT n) 
+    // Return value of controller n Left Thumbstick Y.
+    SHORT getGamepadThumbLY(UINT n) 
     {
         if(n > MAX_CONTROLLERS-1)
             n=MAX_CONTROLLERS-1;
-        return controllers[n].state.Gamepad.sThumbLY;
+        return (controllers[n].state.Gamepad.sThumbLY);
     }
 
-    // Return value of controller n Right Thumbstick X (-32768 through 32767).
-    // Stick movement less than GAMEPAD_THUMBSTICK_DEADZONE returns 0.
-    // Return value is scaled to -32768 through 32767
-    SHORT getGamepadThumbRX(UINT n);
-
-    // Return value of controller n Right Thumbstick X (-32768 through 32767).
-    // Deadzone is not applied.
-    SHORT getGamepadThumbRXUndead(UINT n) 
-    {
-        if(n > MAX_CONTROLLERS-1)   // if invalid controller number
-            n=MAX_CONTROLLERS-1;    // force valid
-        return controllers[n].state.Gamepad.sThumbRX;
-    }
-
-    // Return value of controller n Right Thumbstick Y (-32768 through 32767).
-    // Stick movement less than GAMEPAD_THUMBSTICK_DEADZONE returns 0.
-    // Return value is scaled to -32768 through 32767
-    SHORT getGamepadThumbRY(UINT n);
-
-    // Return value of controller n Right Thumbstick Y (-32768 through 32767).
-    // Deadzone is not applied.
-    SHORT getGamepadThumbRYUndead(UINT n) 
+    // Return value of controller n Right Thumbstick X.
+    SHORT getGamepadThumbRX(UINT n) 
     {
         if(n > MAX_CONTROLLERS-1)
             n=MAX_CONTROLLERS-1;
-        return controllers[n].state.Gamepad.sThumbRY;
+        return (controllers[n].state.Gamepad.sThumbRX);
+    }
+
+    // Return value of controller n Right Thumbstick Y.
+    SHORT getGamepadThumbRY(UINT n) 
+    {
+        if(n > MAX_CONTROLLERS-1)
+            n=MAX_CONTROLLERS-1;
+        return (controllers[n].state.Gamepad.sThumbRY);
     }
 
     // Vibrate controller n left motor.

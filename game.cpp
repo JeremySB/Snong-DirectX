@@ -1,8 +1,7 @@
 // Programming 2D Games
 // Copyright (c) 2011 by: 
 // Charles Kelly
-// Chapter 4 game.cpp v1.1
-// Last modified Mar-9-2015
+// Chapter 5 game.cpp v1.0
 
 #include "game.h"
 
@@ -84,9 +83,6 @@ LRESULT Game::messageHandler( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam 
                 input->setMouseXButton(wParam);
                 input->mouseIn(lParam);             // mouse position
                 return 0;
-            case WM_MOUSEWHEEL:                     // mouse wheel move
-                input->mouseWheelIn(wParam);
-                return 0;
             case WM_DEVICECHANGE:                   // check for controller insert
                 input->checkControllers();
                 return 0;
@@ -102,9 +98,6 @@ LRESULT Game::messageHandler( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam 
 void Game::initialize(HWND hw)
 {
     hwnd = hw;                                  // save window handle
-
-	red = 0;
-	blue = 0;
 
     // initialize graphics
     graphics = new Graphics();
@@ -131,9 +124,7 @@ void Game::renderGame()
     //start rendering
     if (SUCCEEDED(graphics->beginScene()))
     {
-        // render is a pure virtual function that must be provided in the
-        // inheriting class.
-        render();               // call render in derived class
+        render();           // call render() in derived object
 
         //stop rendering
         graphics->endScene();
@@ -174,27 +165,26 @@ void Game::handleLostGraphicsDevice()
 }
 
 //=============================================================================
+// Toggle window or fullscreen mode
+//=============================================================================
+void Game::setDisplayMode(graphicsNS::DISPLAY_MODE mode)
+{
+    releaseAll();                   // free all user created surfaces
+    graphics->changeDisplayMode(mode);
+    resetAll();                     // recreate surfaces
+}
+
+//=============================================================================
 // Call repeatedly by the main message loop in WinMain
 //=============================================================================
 void Game::run(HWND hwnd)
 {
     if(graphics == NULL)            // if graphics not initialized
         return;
-	
-
-	if(input->getMouseRawX() != 0) {
-		blue += 10;
-	}
-	if(input->getMouseRawY() != 0) {
-		red += 10;
-	}
-
-	graphics->setBackColor(SETCOLOR_ARGB(255,red,0,blue));
 
     // calculate elapsed time of last frame, save in frameTime
     QueryPerformanceCounter(&timeEnd);
-    frameTime = (float)(timeEnd.QuadPart - timeStart.QuadPart ) / 
-                (float)timerFreq.QuadPart;
+    frameTime = (float)(timeEnd.QuadPart - timeStart.QuadPart ) / (float)timerFreq.QuadPart;
 
     // Power saving code, requires winmm.lib
     // if not enough time has elapsed for desired frame rate
@@ -209,8 +199,8 @@ void Game::run(HWND hwnd)
 
     if (frameTime > 0.0)
         fps = (fps*0.99f) + (0.01f/frameTime);  // average fps
-    if (frameTime > MAX_FRAME_TIME) // if frame rate is very slow
-        frameTime = MAX_FRAME_TIME; // limit maximum frameTime
+    if (frameTime > MAX_FRAME_TIME)     // if frame rate is very slow
+        frameTime = MAX_FRAME_TIME;     // limit maximum frameTime
     timeStart = timeEnd;
 
     // update(), ai(), and collisions() are pure virtual functions.
@@ -225,6 +215,13 @@ void Game::run(HWND hwnd)
     renderGame();                   // draw all game items
     input->readControllers();       // read state of controllers
 
+    // if Alt+Enter toggle fullscreen/window
+    if (input->isKeyDown(ALT_KEY) && input->wasKeyPressed(ENTER_KEY))
+        setDisplayMode(graphicsNS::TOGGLE); // toggle fullscreen/window
+
+    // if Esc key, set window mode
+    if (input->isKeyDown(ESC_KEY))
+        setDisplayMode(graphicsNS::WINDOW); // set window mode
 
     // Clear input
     // Call this after all key checks are done
@@ -250,7 +247,7 @@ void Game::resetAll()
 void Game::deleteAll()
 {
     releaseAll();               // call onLostDevice() for every graphics item
-    safeDelete(graphics);
-    safeDelete(input);
+    SAFE_DELETE(graphics);
+    SAFE_DELETE(input);
     initialized = false;
 }
