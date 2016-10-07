@@ -46,6 +46,8 @@ const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 fr
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
 const UINT BOARD_WIDTH = GAME_WIDTH/10;
 const UINT BOARD_HEIGHT = GAME_HEIGHT/10;
+const UINT BORDER_HORIZONTAL_WIDTH = 5;
+const UINT BORDER_VERTICAL_WIDTH = 5;
 
 // Snake constants
 const UINT SNAKE_HEAD_SIZE = 4;
@@ -55,7 +57,7 @@ const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTexture.png";
 
 // Ball constants
 const float BALL_STARTING_VEL_X = 40;
-const float BALL_STARTING_VEL_Y = 20;
+const float BALL_STARTING_VEL_Y = 100;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.

@@ -10,7 +10,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Snong::Snong():Player1Score(0),Player2Score(0){
+Snong::Snong(){
 	// todo: currently has error because players aren't constructed.
 }
 
