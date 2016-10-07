@@ -49,6 +49,7 @@ const UINT BOARD_HEIGHT = GAME_HEIGHT/10;
 
 // Snake constants
 const UINT SNAKE_HEAD_SIZE = 4;
+const FLOAT SNAKE_UPDATE_TIME = 1;
 const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTexture.png";
 const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTexture.png";
 

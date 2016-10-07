@@ -75,4 +75,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="pictures\ball.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\HeadTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\LinkTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

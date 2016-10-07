@@ -19,7 +19,9 @@ class Snong : public Game
 private:
     // variables
 	Snake Player1, Player2;
+	UINT Player1Score, Player2Score;
 	Ball ball;
+	float lastMove;
 
 public:
     // Constructor

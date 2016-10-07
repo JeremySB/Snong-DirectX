@@ -10,9 +10,8 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Snong::Snong(){
+Snong::Snong():Player1Score(0),Player2Score(0){
 	// todo: currently has error because players aren't constructed.
-	//		 sam, usually better to have a default constructor for Snake and then an initialize 
 }
 
 //=============================================================================
@@ -33,7 +32,8 @@ void Snong::initialize(HWND hwnd)
 	Player1.initialize(graphics);
 	Player2.initialize(graphics);
 	ball.initialize(graphics, BALL_STARTING_VEL_X, BALL_STARTING_VEL_Y);
-
+	Player1.setMovementDirection(Right);
+	Player2.setMovementDirection(Down);
     return;
 }
 
@@ -42,7 +42,6 @@ void Snong::initialize(HWND hwnd)
 //=============================================================================
 void Snong::update()
 {
-
 	ball.update(frameTime);
 
 #pragma region generalInput
@@ -55,32 +54,33 @@ void Snong::update()
 
 	if(input->isKeyDown(P1_UP) && Player1.getMovementDirection() != Down)
 		Player1.setMovementDirection(Up);
-
 	if(input->isKeyDown(P1_DOWN) && Player1.getMovementDirection() != Up)
 		Player1.setMovementDirection(Down);
 	if(input->isKeyDown(P1_RIGHT) && Player1.getMovementDirection() != Left)
 		Player1.setMovementDirection(Right);
 	if(input->isKeyDown(P1_LEFT) && Player1.getMovementDirection() != Right)
 		Player1.setMovementDirection(Left);
-	//Player1.move();
+
 #pragma endregion
 
 #pragma region player2Input
 
 	if(input->isKeyDown(P2_UP) && Player2.getMovementDirection() != Down)
 		Player2.setMovementDirection(Up);
-
 	if(input->isKeyDown(P2_DOWN) && Player2.getMovementDirection() != Up)
 		Player2.setMovementDirection(Down);
 	if(input->isKeyDown(P2_RIGHT) && Player2.getMovementDirection() != Left)
 		Player2.setMovementDirection(Right);
 	if(input->isKeyDown(P2_LEFT) && Player2.getMovementDirection() != Right)
 		Player2.setMovementDirection(Left);
-	//Player2.move();
 #pragma endregion
+this->lastMove += frameTime;
 
-
-
+//if(this->lastMove > 0){
+	Player1.move();
+	Player2.move();
+	this->lastMove = 0;
+//}
 }
 
 //=============================================================================

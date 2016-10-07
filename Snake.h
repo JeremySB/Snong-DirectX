@@ -15,6 +15,7 @@ public:
 	// Jeremy: sam, usually better to have this just be default (so Snake objects are constructored automatically) and do this in an initialize function like Image & TextureManager do
 	Snake():initialized(false){};
 	~Snake();
+
 	void initialize(Graphics* graphics, int append = SNAKE_HEAD_SIZE);
 
 	void wipe();	// will be made to reduce the snake to a size of 1 and set its append variable to SNAKE_HEAD_SIZE
@@ -24,14 +25,18 @@ public:
 	void setMovementDirection(Direction newDir);
 
 	void draw();
+	
+	bool isDead();
 	void onLostDevice();
 	void onResetDevice();
 
 private:
-	void isInitialized();
+	inline void isInitialized();
+
 	Direction movementDir;
+	
 	struct Link{
-		Link(Graphics* graphics, TextureManager* texture, int ncols = 1):head(false),x(0),y(0){
+		Link(bool head, Graphics* graphics, TextureManager* texture, int ncols = 1):head(false),x(0),y(0){
 			if(!sprite.initialize(graphics, texture->getWidth(),texture->getHeight(),ncols,texture))
 				throw GameError::exception("Snake link not able to initialize");
 			sprite.setX(x * (GAME_WIDTH / BOARD_WIDTH));
@@ -45,11 +50,16 @@ private:
 	
 	// Doubly Linked List<Link>
 	Graphics* graphics;
+	
 	TextureManager linkTexture;
 	TextureManager headTexture;
+	
 	std::list<Link> links;
+	
 	int append;
+	
 	bool initialized;
+	bool dead;
 };
                               
 #endif

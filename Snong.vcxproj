@@ -109,6 +109,11 @@
     <ClInclude Include="Snong.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="pictures\ball.jpg" />
+    <Image Include="pictures\HeadTexture.png" />
+    <Image Include="pictures\LinkTexture.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
