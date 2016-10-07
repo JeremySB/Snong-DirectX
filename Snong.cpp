@@ -10,8 +10,8 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Snong::Snong()
-{}
+Snong::Snong(){
+}
 
 //=============================================================================
 // Destructor
@@ -36,7 +36,43 @@ void Snong::initialize(HWND hwnd)
 // Update all game items
 //=============================================================================
 void Snong::update()
-{}
+{
+
+
+
+#pragma region generalInput
+	if(input->isKeyDown(VK_ESCAPE))
+		exitGame();
+#pragma endregion
+#pragma region player1Input
+
+	if(input->isKeyDown(P1_UP) && Player1.getMovementDirection() != Down)
+		Player1.setMovementDirection(Up);
+
+	if(input->isKeyDown(P1_DOWN) && Player1.getMovementDirection() != Up)
+		Player1.setMovementDirection(Down);
+	if(input->isKeyDown(P1_RIGHT) && Player1.getMovementDirection() != Left)
+		Player1.setMovementDirection(Right);
+	if(input->isKeyDown(P1_LEFT) && Player1.getMovementDirection() != Right)
+		Player1.setMovementDirection(Left);
+
+#pragma endregion
+
+#pragma region player2Input
+
+	if(input->isKeyDown(P2_UP) && Player2.getMovementDirection() != Down)
+		Player2.setMovementDirection(Up);
+
+	if(input->isKeyDown(P2_DOWN) && Player2.getMovementDirection() != Up)
+		Player2.setMovementDirection(Down);
+	if(input->isKeyDown(P2_RIGHT) && Player2.getMovementDirection() != Left)
+		Player2.setMovementDirection(Right);
+	if(input->isKeyDown(P2_LEFT) && Player2.getMovementDirection() != Right)
+		Player2.setMovementDirection(Left);
+
+#pragma endregion
+
+}
 
 //=============================================================================
 // Artificial Intelligence
