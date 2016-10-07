@@ -10,13 +10,17 @@ public:
 	~Ball(void);
 
 	// initialize Image object and position ball in center
-	bool initialize(Graphics*);
+	// takes Graphics pointer, x velocity, and y velocity
+	bool initialize(Graphics* graphics, float xVel, float yVel);
 
 	// update ball position using current velocity. call per frame
-	void updatePosition();
+	void update(float frameTime);
 	
 	// draw the ball - just calls draw on the image
 	void draw() { ballImage.draw(); }
+
+	void onLostDevice() { ballTexture.onLostDevice(); }
+	void onResetDevice() { ballTexture.onResetDevice(); }
 
 private:
 	Image ballImage;

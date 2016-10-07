@@ -11,6 +11,8 @@
 // Constructor
 //=============================================================================
 Snong::Snong(){
+	// todo: currently has error because players aren't constructed.
+	//		 sam, usually better to have a default constructor for Snake and then an initialize function
 }
 
 //=============================================================================
@@ -29,7 +31,7 @@ void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
-	ball.initialize(graphics);
+	ball.initialize(graphics, BALL_STARTING_VEL_X, BALL_STARTING_VEL_Y);
 
     return;
 }
@@ -40,12 +42,14 @@ void Snong::initialize(HWND hwnd)
 void Snong::update()
 {
 
-
+	ball.update(frameTime);
 
 #pragma region generalInput
 	if(input->isKeyDown(VK_ESCAPE))
 		exitGame();
 #pragma endregion
+
+/*
 #pragma region player1Input
 
 	if(input->isKeyDown(P1_UP) && Player1.getMovementDirection() != Down)
@@ -74,6 +78,8 @@ void Snong::update()
 
 #pragma endregion
 
+*/
+
 }
 
 //=============================================================================
@@ -92,7 +98,11 @@ void Snong::collisions()
 // Render game items
 //=============================================================================
 void Snong::render()
-{}
+{
+	graphics->spriteBegin();
+	ball.draw();
+	graphics->spriteEnd();
+}
 
 //=============================================================================
 // The graphics device was lost.
@@ -100,7 +110,8 @@ void Snong::render()
 //=============================================================================
 void Snong::releaseAll()
 {
-    Game::releaseAll();
+    ball.onLostDevice();
+	Game::releaseAll();
     return;
 }
 
@@ -110,6 +121,7 @@ void Snong::releaseAll()
 //=============================================================================
 void Snong::resetAll()
 {
-    Game::resetAll();
+    ball.onResetDevice();
+	Game::resetAll();
     return;
 }

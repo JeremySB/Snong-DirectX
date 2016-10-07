@@ -12,6 +12,7 @@ enum Direction {Up,Down,Left,Right};
 class Snake {
 public:
 	// initializer with all of the variables we will need to generate a functioning snake class
+	// Jeremy: sam, usually better to have this just be default (so Snake objects are constructored automatically) and do this in an initialize function like Image & TextureManager do
 	Snake(TextureManager *linkTexture, TextureManager *headTexture, int append = SNAKE_HEAD_SIZE):linkTexture(linkTexture),
 		headTexture(headTexture),append(append){};
 	~Snake();

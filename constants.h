@@ -47,6 +47,8 @@ const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calcul
 const UINT BOARD_WIDTH = GAME_WIDTH/10;
 const UINT BOARD_HEIGHT = GAME_HEIGHT/10;
 const UINT SNAKE_HEAD_SIZE = 4;
+const float BALL_STARTING_VEL_X = 40;
+const float BALL_STARTING_VEL_Y = 20;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
