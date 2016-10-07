@@ -9,6 +9,7 @@
 
 #include "game.h"
 #include "Snake.h"
+#include "Ball.h"
 
 //=============================================================================
 // Create game class
@@ -18,6 +19,7 @@ class Snong : public Game
 private:
     // variables
 	Snake Player1, Player2;
+	Ball ball;
 
 public:
     // Constructor

@@ -28,6 +28,7 @@
 //-----------------------------------------------
 // graphic images
 //const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
+const char BALL_IMAGE[] = "pictures\\ball.jpg";  // photo source NASA/courtesy of nasaimages.org 
 
 // window
 const char CLASS_NAME[] = "Snong";

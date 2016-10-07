@@ -29,6 +29,8 @@ void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
+	ball.initialize(graphics);
+
     return;
 }
 
