@@ -12,7 +12,7 @@
 //=============================================================================
 Snong::Snong(){
 	// todo: currently has error because players aren't constructed.
-	//		 sam, usually better to have a default constructor for Snake and then an initialize function
+	//		 sam, usually better to have a default constructor for Snake and then an initialize 
 }
 
 //=============================================================================
@@ -30,7 +30,8 @@ Snong::~Snong()
 void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-
+	Player1.initialize(graphics);
+	Player2.initialize(graphics);
 	ball.initialize(graphics, BALL_STARTING_VEL_X, BALL_STARTING_VEL_Y);
 
     return;
@@ -49,7 +50,7 @@ void Snong::update()
 		exitGame();
 #pragma endregion
 
-/*
+
 #pragma region player1Input
 
 	if(input->isKeyDown(P1_UP) && Player1.getMovementDirection() != Down)
@@ -61,7 +62,7 @@ void Snong::update()
 		Player1.setMovementDirection(Right);
 	if(input->isKeyDown(P1_LEFT) && Player1.getMovementDirection() != Right)
 		Player1.setMovementDirection(Left);
-
+	//Player1.move();
 #pragma endregion
 
 #pragma region player2Input
@@ -75,10 +76,10 @@ void Snong::update()
 		Player2.setMovementDirection(Right);
 	if(input->isKeyDown(P2_LEFT) && Player2.getMovementDirection() != Right)
 		Player2.setMovementDirection(Left);
-
+	//Player2.move();
 #pragma endregion
 
-*/
+
 
 }
 
@@ -101,6 +102,8 @@ void Snong::render()
 {
 	graphics->spriteBegin();
 	ball.draw();
+	Player1.draw();
+	Player2.draw();
 	graphics->spriteEnd();
 }
 
@@ -111,6 +114,8 @@ void Snong::render()
 void Snong::releaseAll()
 {
     ball.onLostDevice();
+	Player1.onLostDevice();
+	Player2.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -122,6 +127,8 @@ void Snong::releaseAll()
 void Snong::resetAll()
 {
     ball.onResetDevice();
+	Player1.onResetDevice();
+	Player2.onResetDevice();
 	Game::resetAll();
     return;
 }

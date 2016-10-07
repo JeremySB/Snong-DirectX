@@ -5,23 +5,37 @@
 Snake::~Snake(){
 
 }
+
+void Snake::initialize(Graphics *graphics, int append){
+	if(initialized)
+		throw GameError::exception("Snake was already initialized");
+
+	this->linkTexture.initialize(graphics,SNAKE_LINK_TEXTURE);
+	this->headTexture.initialize(graphics, SNAKE_HEAD_TEXTURE);
+	this->append = append;
+	this->initialized = true;
+	this->links.push_back(Link(graphics, &headTexture));
+}
 void Snake::wipe(){
-	
+	isInitialized();
+	while(links.size() > SNAKE_HEAD_SIZE){
+		links.pop_back();
+	}
 }
 
 void Snake::move(){
-	
+	isInitialized();
 	std::list<Link>::iterator currentLink;
 	std::list<Link>::iterator nextLink;
 	Image *sprite;
 	if(append){
 		// demo function showing how append would be used
 		if(links.size() < SNAKE_HEAD_SIZE){
-			links.push_back(Link(nullptr, headTexture->getWidth(), headTexture->getHeight(), headTexture));
+			links.push_back(Link(graphics, &headTexture));
 			links.back().head = true;
 		}
 		else{
-			links.push_back(Link(nullptr, linkTexture->getWidth(), linkTexture->getHeight(), linkTexture));
+			links.push_back(Link(graphics, &linkTexture));
 		}
 		append--;
 	}
@@ -66,9 +80,34 @@ void Snake::move(){
 }
 
 Direction Snake::getMovementDirection(){
+	isInitialized();
 	return movementDir;
 }
 
 void Snake::setMovementDirection(Direction newDir){
+	isInitialized();
 	movementDir = newDir;
+}
+
+void Snake::draw(){
+	isInitialized();
+	for(std::list<Link>::iterator currentLink = links.begin(); currentLink != links.end(); ++currentLink){
+		currentLink->sprite.draw();
+	}
+}
+
+void Snake::onLostDevice(){
+	isInitialized();
+	linkTexture.onLostDevice();
+	headTexture.onLostDevice();
+}
+
+void Snake::onResetDevice(){
+	isInitialized();
+	linkTexture.onResetDevice();
+	headTexture.onResetDevice();
+}
+void Snake::isInitialized(){
+	if(!this->initialized)
+		throw GameError::exception("Snake is not initialized");
 }
