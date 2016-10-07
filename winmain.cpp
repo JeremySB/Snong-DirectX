@@ -1,7 +1,7 @@
 // Programming 2D Games
 // Copyright (c) 2011 by:
 // Charles Kelly
-// Space War winmain.cpp v1.1
+// Space War winmain.cpp v1.0
 
 #define _CRTDBG_MAP_ALLOC       // for detecting memory leaks
 #define WIN32_LEAN_AND_MEAN
@@ -59,7 +59,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
             } else
                 game->run(hwnd);    // run the game loop
         }
-        safeDelete(game);           // free memory before exit
+        SAFE_DELETE (game);     // free memory before exit
         return msg.wParam;
     }
     catch(const GameError &err)
@@ -75,7 +75,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
         MessageBox(NULL, "Unknown error occured in game.", "Error", MB_OK);
     }
 
-    safeDelete(game);       // free memory before exit
+    SAFE_DELETE (game);     // free memory before exit
     return 0;
 }
 
