@@ -9,7 +9,6 @@ class Ball
 {
 public:
 	Ball(void);
-	~Ball(void);
 
 	// initialize Image object and position ball in center
 	// takes Graphics pointer, x velocity, and y velocity

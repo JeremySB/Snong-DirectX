@@ -7,10 +7,6 @@ Ball::Ball(void)
 }
 
 
-Ball::~Ball(void)
-{
-}
-
 bool Ball::initialize(Graphics* g) {
 	try {
 		if(!ballTexture.initialize(g, BALL_IMAGE)) {

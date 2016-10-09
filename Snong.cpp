@@ -31,7 +31,7 @@ void Snong::initialize(HWND hwnd)
     Game::initialize(hwnd); // throws GameError
 	Player1.initialize(graphics);
 	Player2.initialize(graphics);
-	ball.initialize(graphics, BALL_STARTING_VEL_X, BALL_STARTING_VEL_Y);
+	ball.initialize(graphics);
 	Player1.setMovementDirection(Right);
 	Player2.setMovementDirection(Down);
     return;
