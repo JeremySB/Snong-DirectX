@@ -6,9 +6,18 @@ Ball::Ball(void)
 
 }
 
+bool Ball::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+	velocity.x = BALL_STARTING_VEL_X;
+	velocity.y = BALL_STARTING_VEL_Y;
+	reset();
+	return Entity::initialize(gamePtr, width, height, ncols, textureM);
+}
 
 void Ball::update(float frameTime) {
 	Entity::update(frameTime);
+
+	setX(getX() + frameTime * velocity.x);
+	setY(getY() + frameTime * velocity.y); 
 
 	// top/bottom wall collision
 	

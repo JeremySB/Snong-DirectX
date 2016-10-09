@@ -36,7 +36,7 @@ void Snong::initialize(HWND hwnd)
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) {
 			GameError(gameErrorNS::FATAL_ERROR, "Ball texture initialization failed");
 	}
-	if(!ball.initialize(g, 27, 17, 1, &ballTexture)) {
+	if(!ball.initialize(this, 27, 17, 1, &ballTexture)) {
 			GameError(gameErrorNS::FATAL_ERROR, "Ball image initialization failed");
 	}
 
@@ -121,9 +121,9 @@ void Snong::render()
 //=============================================================================
 void Snong::releaseAll()
 {
-    ball.onLostDevice();
 	Player1.onLostDevice();
 	Player2.onLostDevice();
+    ballTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -134,9 +134,9 @@ void Snong::releaseAll()
 //=============================================================================
 void Snong::resetAll()
 {
-    ball.onResetDevice();
 	Player1.onResetDevice();
 	Player2.onResetDevice();
+    ballTexture.onResetDevice();
 	Game::resetAll();
     return;
 }

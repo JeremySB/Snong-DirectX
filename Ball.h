@@ -11,6 +11,8 @@ class Ball : public Entity
 public:
 	Ball(void);
 
+	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+
 	// update ball position using current velocity. call per frame
 	void update(float frameTime);
 

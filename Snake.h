@@ -39,8 +39,8 @@ private:
 		Link(bool head, Graphics* graphics, TextureManager* texture, int ncols = 1):head(false),x(0),y(0){
 			if(!sprite.initialize(graphics, texture->getWidth(),texture->getHeight(),ncols,texture))
 				throw GameError::exception("Snake link not able to initialize");
-			sprite.setX(x * (GAME_WIDTH / BOARD_WIDTH));
-			sprite.setY(y * (GAME_HEIGHT / BOARD_HEIGHT));
+			sprite.setX(x * ((float)GAME_WIDTH / BOARD_WIDTH));
+			sprite.setY(y * ((float)GAME_HEIGHT / BOARD_HEIGHT));
 			sprite.setScale(((float)GAME_HEIGHT/(float)BOARD_HEIGHT)/(float)texture->getHeight());
 		}
 		Image sprite;
