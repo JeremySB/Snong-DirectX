@@ -1,7 +1,7 @@
 // Programming 2D Games
 // Copyright (c) 2011 by: 
 // Charles Kelly
-// Chapter 5 game.cpp v1.0
+// Chapter 7 game.cpp v1.0
 
 #include "game.h"
 
@@ -16,6 +16,7 @@ Game::Game()
     // additional initialization is handled in later call to input->initialize()
     paused = false;             // game is not paused
     graphics = NULL;
+    audio = NULL;
     initialized = false;
 }
 
@@ -106,6 +107,20 @@ void Game::initialize(HWND hw)
 
     // initialize input, do not capture mouse
     input->initialize(hwnd, false);             // throws GameError
+
+
+    // init sound system
+    audio = new Audio();
+    if (*WAVE_BANK != '\0' && *SOUND_BANK != '\0')  // if sound files defined
+    {
+        if( FAILED( hr = audio->initialize() ) )
+        {
+            if( hr == HRESULT_FROM_WIN32( ERROR_FILE_NOT_FOUND ) )
+                throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system because media file not found."));
+            else
+                throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system."));
+        }
+    }
 
     // attempt to set up high resolution timer
     if(QueryPerformanceFrequency(&timerFreq) == false)
@@ -199,8 +214,8 @@ void Game::run(HWND hwnd)
 
     if (frameTime > 0.0)
         fps = (fps*0.99f) + (0.01f/frameTime);  // average fps
-    if (frameTime > MAX_FRAME_TIME)     // if frame rate is very slow
-        frameTime = MAX_FRAME_TIME;     // limit maximum frameTime
+    if (frameTime > MAX_FRAME_TIME) // if frame rate is very slow
+        frameTime = MAX_FRAME_TIME; // limit maximum frameTime
     timeStart = timeEnd;
 
     // update(), ai(), and collisions() are pure virtual functions.
@@ -214,6 +229,8 @@ void Game::run(HWND hwnd)
     }
     renderGame();                   // draw all game items
     input->readControllers();       // read state of controllers
+
+    audio->run();                       // perform periodic sound engine tasks
 
     // if Alt+Enter toggle fullscreen/window
     if (input->isKeyDown(ALT_KEY) && input->wasKeyPressed(ENTER_KEY))
@@ -247,6 +264,7 @@ void Game::resetAll()
 void Game::deleteAll()
 {
     releaseAll();               // call onLostDevice() for every graphics item
+    SAFE_DELETE(audio);
     SAFE_DELETE(graphics);
     SAFE_DELETE(input);
     initialized = false;
