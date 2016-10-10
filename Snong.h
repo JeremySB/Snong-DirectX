@@ -20,7 +20,8 @@ private:
     // variables
 	Snake Player1, Player2;
 	UINT Player1Score, Player2Score;
-	Ball ball;
+	Ball ball; // ball entity
+	TextureManager ballTexture;
 	float lastMove;
 
 public:

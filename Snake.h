@@ -13,20 +13,21 @@ class Snake {
 public:
 	// initializer with all of the variables we will need to generate a functioning snake class
 	// Jeremy: sam, usually better to have this just be default (so Snake objects are constructored automatically) and do this in an initialize function like Image & TextureManager do
-	Snake():initialized(false){};
+	Snake();
 	~Snake();
 
-	void initialize(Graphics* graphics, int append = SNAKE_HEAD_SIZE);
+	void initialize(Graphics* graphics);
 
 	void wipe();	// will be made to reduce the snake to a size of 1 and set its append variable to SNAKE_HEAD_SIZE
 	void move();	// updates the position of the snake
+	void append(UINT toAdd);
 
 	Direction getMovementDirection();
 	void setMovementDirection(Direction newDir);
 
 	void draw();
 	
-	bool isDead();
+	bool isDead() const;
 	void onLostDevice();
 	void onResetDevice();
 
@@ -36,13 +37,8 @@ private:
 	Direction movementDir;
 	
 	struct Link{
-		Link(Graphics* graphics, TextureManager* texture, int ncols = 1):x(0),y(0){
-			if(!sprite.initialize(graphics, texture->getWidth(),texture->getHeight(),ncols,texture))
-				throw GameError::exception("Snake link not able to initialize");
-			sprite.setX(x * (GAME_WIDTH / BOARD_WIDTH));
-			sprite.setY(y * (GAME_HEIGHT / BOARD_HEIGHT));
-			sprite.setScale( ( (float)GAME_HEIGHT / (float)BOARD_HEIGHT ) / (float)texture->getHeight());
-		}
+		Link(Graphics* graphics, TextureManager* texture, int ncols = 1);
+		Link():x(0),y(0),inUse(false){};
 		Image sprite;
 		int x, y;
 		bool inUse;
@@ -56,7 +52,7 @@ private:
 	
 	//std::list<Link> links;
 	Link links[SNAKE_MAX_LENGTH];
-	unsigned int append;
+	unsigned int appendNum;
 	unsigned int linksUsed;
 	bool initialized;
 	bool dead;

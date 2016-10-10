@@ -44,15 +44,19 @@ const float FRAME_RATE  = 60.0f;               // the target frame rate (frames/
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate
 const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 frame
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
+
+// Board constants
 const UINT BOARD_WIDTH = GAME_WIDTH/10;
 const UINT BOARD_HEIGHT = GAME_HEIGHT/10;
 const UINT BORDER_HORIZONTAL_WIDTH = 5;
 const UINT BORDER_VERTICAL_WIDTH = 5;
+const FLOAT BOARD_CELL_WIDTH = (float) GAME_WIDTH / (float) BOARD_WIDTH;
+const FLOAT BOARD_CELL_HEIGHT = (float) GAME_HEIGHT / (float) BOARD_HEIGHT;
 
 // Snake constants
 const UINT SNAKE_HEAD_SIZE = 4;
-const FLOAT SNAKE_UPDATE_TIME = 1;
-const UINT SNAKE_MAX_LENGTH = BOARD_WIDTH * BOARD_HEIGHT / 3;
+const FLOAT SNAKE_UPDATE_TIME = .5;
+const UINT SNAKE_MAX_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / 30;
 const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTexture.png";
 const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTexture.png";
 
@@ -66,14 +70,20 @@ const UCHAR ESC_KEY      = VK_ESCAPE;   // escape key
 const UCHAR ALT_KEY      = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
-const UCHAR P1_UP = 'w';
-const UCHAR P1_DOWN = 's';
-const UCHAR P1_RIGHT = 'd';
-const UCHAR P1_LEFT = 'a';
+// audio files required by audio.cpp
+// WAVE_BANK must be location of .xwb file.
+const char WAVE_BANK[]  = "audio\\Win\\WavesExample1.xwb";
+// SOUND_BANK must be location of .xsb file.
+const char SOUND_BANK[] = "audio\\Win\\SoundsExample1.xsb";
 
-const UCHAR P2_UP = 'i';
-const UCHAR P2_DOWN = 'k';
-const UCHAR P2_RIGHT = 'l';
-const UCHAR P2_LEFT = 'j';
+const UCHAR P1_UP = 'W';
+const UCHAR P1_DOWN = 'S';
+const UCHAR P1_RIGHT = 'D';
+const UCHAR P1_LEFT = 'A';
+
+const UCHAR P2_UP = 'I';
+const UCHAR P2_DOWN = 'K';
+const UCHAR P2_RIGHT = 'L';
+const UCHAR P2_LEFT = 'J';
 
 #endif

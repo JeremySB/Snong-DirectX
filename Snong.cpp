@@ -10,7 +10,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Snong::Snong(){
+Snong::Snong():lastMove(0){
 	// todo: currently has error because players aren't constructed.
 }
 
@@ -31,7 +31,14 @@ void Snong::initialize(HWND hwnd)
     Game::initialize(hwnd); // throws GameError
 	Player1.initialize(graphics);
 	Player2.initialize(graphics);
-	ball.initialize(graphics);//, BALL_STARTING_VEL_X, BALL_STARTING_VEL_Y);
+
+	// ball initializations
+	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
+			GameError(gameErrorNS::FATAL_ERROR, "Ball texture initialization failed");
+
+	if(!ball.initialize(this, 27, 17, 1, &ballTexture))
+			GameError(gameErrorNS::FATAL_ERROR, "Ball image initialization failed");
+
 	Player1.setMovementDirection(Right);
 	Player2.setMovementDirection(Down);
     return;
@@ -74,13 +81,19 @@ void Snong::update()
 	if(input->isKeyDown(P2_LEFT) && Player2.getMovementDirection() != Right)
 		Player2.setMovementDirection(Left);
 #pragma endregion
+
 this->lastMove += frameTime;
 
-//if(this->lastMove > 0){
+if(this->lastMove >= SNAKE_UPDATE_TIME){
 	Player1.move();
 	Player2.move();
 	this->lastMove = 0;
-//}
+	if(Player1.isDead() || Player2.isDead()){
+		(Player1.isDead() ? Player2Score : Player1Score)++;
+		//Player1.wipe();
+		//Player2.wipe();
+	}
+}
 }
 
 //=============================================================================
@@ -113,9 +126,9 @@ void Snong::render()
 //=============================================================================
 void Snong::releaseAll()
 {
-    ball.onLostDevice();
 	Player1.onLostDevice();
 	Player2.onLostDevice();
+    ballTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -126,9 +139,9 @@ void Snong::releaseAll()
 //=============================================================================
 void Snong::resetAll()
 {
-    ball.onResetDevice();
 	Player1.onResetDevice();
 	Player2.onResetDevice();
+    ballTexture.onResetDevice();
 	Game::resetAll();
     return;
 }
