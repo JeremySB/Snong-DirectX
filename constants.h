@@ -52,6 +52,7 @@ const UINT BORDER_VERTICAL_WIDTH = 5;
 // Snake constants
 const UINT SNAKE_HEAD_SIZE = 4;
 const FLOAT SNAKE_UPDATE_TIME = 1;
+const UINT SNAKE_MAX_LENGTH = BOARD_WIDTH * BOARD_HEIGHT / 3;
 const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTexture.png";
 const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTexture.png";
 

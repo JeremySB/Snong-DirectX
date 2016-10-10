@@ -3,7 +3,7 @@
 
 #include "textureManager.h"
 #include "image.h"
-#include <list>
+//#include <list>
 
 
 // enum to store what direction we are moving
@@ -36,16 +36,16 @@ private:
 	Direction movementDir;
 	
 	struct Link{
-		Link(bool head, Graphics* graphics, TextureManager* texture, int ncols = 1):head(false),x(0),y(0){
+		Link(Graphics* graphics, TextureManager* texture, int ncols = 1):x(0),y(0){
 			if(!sprite.initialize(graphics, texture->getWidth(),texture->getHeight(),ncols,texture))
 				throw GameError::exception("Snake link not able to initialize");
 			sprite.setX(x * (GAME_WIDTH / BOARD_WIDTH));
 			sprite.setY(y * (GAME_HEIGHT / BOARD_HEIGHT));
-			sprite.setScale(((float)GAME_HEIGHT/(float)BOARD_HEIGHT)/(float)texture->getHeight());
+			sprite.setScale( ( (float)GAME_HEIGHT / (float)BOARD_HEIGHT ) / (float)texture->getHeight());
 		}
 		Image sprite;
-		int x,y;
-		bool head;
+		int x, y;
+		bool inUse;
 	};
 	
 	// Doubly Linked List<Link>
@@ -54,10 +54,10 @@ private:
 	TextureManager linkTexture;
 	TextureManager headTexture;
 	
-	std::list<Link> links;
-	
-	int append;
-	
+	//std::list<Link> links;
+	Link links[SNAKE_MAX_LENGTH];
+	unsigned int append;
+	unsigned int linksUsed;
 	bool initialized;
 	bool dead;
 };

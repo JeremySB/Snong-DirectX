@@ -10,18 +10,20 @@ void Snake::initialize(Graphics *graphics, int append){
 	if(initialized)
 		throw GameError::exception("Snake was already initialized");
 
-	this->linkTexture.initialize(graphics,SNAKE_LINK_TEXTURE);
-	this->headTexture.initialize(graphics, SNAKE_HEAD_TEXTURE);
+	if (!this->linkTexture.initialize(graphics,SNAKE_LINK_TEXTURE))
+		throw GameError::exception("SnakeLink texture could not be initialized");
+	if (!this->headTexture.initialize(graphics, SNAKE_HEAD_TEXTURE))
+		throw GameError::exception("Snake Head texture could not be initialized");
 	this->append = append;
-	this->links.push_back(Link(true, graphics, &headTexture));
+	this->links[linksUsed++] = Link(graphics, &headTexture);
 	append--;
 	this->initialized = true;
 }
 
 void Snake::wipe(){
 	isInitialized();
-	while(links.size() > SNAKE_HEAD_SIZE){
-		links.pop_back();
+	for ( int i = SNAKE_MAX_LENGTH; i >= 0; i--){
+		links[i].inUse = false;
 	}
 }
 
@@ -36,12 +38,8 @@ void Snake::move(){
 	int Xmovement = 0, Ymovement = 0;
 
 	if(append > 0){
-		// demo function showing how append would be used
-		if(links.size() < SNAKE_HEAD_SIZE)
-			links.push_back(Link(true, graphics, &headTexture));
-
-		else
-			links.push_back(Link(false, graphics, &linkTexture));
+		// demo function showing how append would be 
+		links[].inUse = true;
 		append--;
 	}
 
