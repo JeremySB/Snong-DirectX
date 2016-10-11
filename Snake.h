@@ -3,6 +3,7 @@
 
 #include "textureManager.h"
 #include "image.h"
+#include "entity.h"
 
 
 // enum to store what direction we are moving
@@ -26,24 +27,23 @@ public:
 
 	void draw();
 
-	void setDead(bool state) { dead = state; }
-	
+	Entity **getEntities();
+
+	void setDead(bool state);
 	bool isDead() const;
+
 	void onLostDevice();
 	void onResetDevice();
 
 private:
-	inline void isInitialized();
-
-	Direction movementDir;
-	
 	struct Link{
-		//Link(Graphics* graphics, TextureManager* texture, int ncols = 1);
 		Link():x(0),y(0),inUse(false){};
-		Image sprite;
+		//Image 
+		Entity sprite;
 		int x, y;
 		bool inUse;
 	};
+	inline void isInitialized();
 	void updateLink(Link &input, int newX, int newY);
 	
 	// Doubly Linked List<Link>
@@ -52,8 +52,8 @@ private:
 	TextureManager linkTexture;
 	TextureManager headTexture;
 	
-	//std::list<Link> links;
 	Link links[SNAKE_MAX_LENGTH];
+	Direction movementDir;
 	unsigned int appendNum;
 	unsigned int linksUsed;
 	unsigned int defaultX,defaultY;

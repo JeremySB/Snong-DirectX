@@ -55,15 +55,20 @@ const FLOAT BOARD_CELL_HEIGHT = (float) GAME_HEIGHT / (float) BOARD_HEIGHT;
 
 // Snake constants
 const UINT SNAKE_MAX_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / 30;
-const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 8;//4;
-const FLOAT SNAKE_UPDATE_TIME = .2f;
+const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 6;/// 8;//4;
+const FLOAT SNAKE_UPDATE_TIME = .1f;
 const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP1.png";
 const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
 
+const char P1_SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP1.png";
+const char P1_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
+
+const char P2_SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP2.png";
+const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
 // Ball constants
 const float BALL_STARTING_VEL_X = 40;
 const float BALL_STARTING_VEL_Y = 100;
-const float BALL_SCALE = 0.3;
+const float BALL_SCALE = 0.3f;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
@@ -82,9 +87,9 @@ const UCHAR P1_DOWN = 'S';
 const UCHAR P1_RIGHT = 'D';
 const UCHAR P1_LEFT = 'A';
 
-const UCHAR P2_UP = 'I';
-const UCHAR P2_DOWN = 'K';
-const UCHAR P2_RIGHT = 'L';
-const UCHAR P2_LEFT = 'J';
+const UCHAR P2_UP = VK_UP;//'I';
+const UCHAR P2_DOWN = VK_DOWN;//'K';
+const UCHAR P2_RIGHT = VK_RIGHT;//'L';
+const UCHAR P2_LEFT = VK_LEFT;//'J';
 
 #endif

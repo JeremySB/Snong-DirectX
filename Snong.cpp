@@ -29,8 +29,8 @@ Snong::~Snong()
 void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	Player1.initialize(graphics);
-	Player2.initialize(graphics);
+	Player1.initialize(graphics, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
+	Player2.initialize(graphics, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
 
 	// ball initializations
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
@@ -85,18 +85,15 @@ void Snong::update()
 		Player1.move();
 		Player2.move();
 		timeSinceLastMove = 0;
-		Player1.append(2);
-		if(Player1.isDead() && Player2.isDead()){
-			Player1.wipe();
-			Player2.wipe();
-			ball.reset();
-		}
-		else if(Player1.isDead() || Player2.isDead()){
+	}
+
+	if(Player1.isDead() || Player2.isDead()){
+		Player1.wipe();
+		Player2.wipe();
+		ball.reset();
+
+		if(!(Player1.isDead() && Player2.isDead()))
 			(Player1.isDead() ? Player2Score : Player1Score)++;
-			Player1.wipe();
-			Player2.wipe();
-			ball.reset();
-		}
 	}
 }
 

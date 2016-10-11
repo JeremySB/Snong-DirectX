@@ -94,9 +94,6 @@
     <Image Include="pictures\ball.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="pictures\FaceTextureP1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="pictures\HeadTextureP1.png">
       <Filter>Resource Files</Filter>
     </Image>

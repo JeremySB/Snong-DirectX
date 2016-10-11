@@ -116,7 +116,6 @@
   <ItemGroup>
     <Image Include="pictures\ball.jpg" />
     <Image Include="pictures\ball.png" />
-    <Image Include="pictures\FaceTextureP1.png" />
     <Image Include="pictures\HeadTextureP1.png" />
     <Image Include="pictures\HeadTextureP2.png" />
     <Image Include="pictures\LinkTextureP1.png" />
