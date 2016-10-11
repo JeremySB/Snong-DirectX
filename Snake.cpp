@@ -15,31 +15,39 @@ void Snake::initialize(Graphics *graphics, int x, int y){
 	// makes sure we can make the textures
 	if (!this->linkTexture.initialize(graphics,SNAKE_LINK_TEXTURE))
 		throw GameError::exception("SnakeLink texture could not be initialized");
+
 	if (!this->headTexture.initialize(graphics, SNAKE_HEAD_TEXTURE))
 		throw GameError::exception("Snake Head texture could not be initialized");
+	
 	defaultX = x;
 	defaultY = y;
+	
 	// initializes all of the links we will use 
 	for ( int i = 0; i < SNAKE_MAX_LENGTH; i++){
 		Image* sprite = &links[i].sprite;
 
 		if(i < SNAKE_HEAD_SIZE && !sprite->initialize(graphics, headTexture.getWidth(),headTexture.getHeight(), 1, &headTexture))
 			throw GameError::exception("Snake link not able to initialize");
+		
 		if(i >= SNAKE_HEAD_SIZE && !sprite->initialize(graphics, linkTexture.getWidth(),linkTexture.getHeight(), 1, &linkTexture))
 			throw GameError::exception("Snake link not able to initialize");
 		
 		sprite->setScale( BOARD_CELL_HEIGHT / (float)(i < SNAKE_HEAD_SIZE ? headTexture : linkTexture).getHeight());
-	
-		sprite->setX(0);
-		sprite->setY(0);
+		updateLink(links[i], defaultX, defaultY);
 	}
 	
 	links[linksUsed++].inUse = true;
-	links[linksUsed].sprite.setX(BOARD_CELL_WIDTH * defaultX);
-	links[linksUsed].sprite.setY(BOARD_CELL_HEIGHT * defaultY);
+	updateLink(links[linksUsed], defaultX, defaultY);
 	appendNum--;
 
 	this->initialized = true;
+}
+
+void Snake::updateLink(Link &input, int newX, int newY){
+	input.x = newX;
+	input.y = newY;
+	input.sprite.setX(newX * BOARD_CELL_WIDTH);
+	input.sprite.setY(newY * BOARD_CELL_HEIGHT);
 }
 
 void Snake::wipe(){
@@ -49,20 +57,21 @@ void Snake::wipe(){
 	}
 	appendNum = SNAKE_HEAD_SIZE - 1;
 	linksUsed = 1;
-	links[0].x = defaultX;
-	links[0].y = defaultY;
-	links[0].sprite.
-	this->.,,,dead = false;
+	//links[0].x = defaultX;
+	//links[0].y = defaultY;
+	//links[0].sprite.;
+	updateLink(links[0], defaultX, defaultY);
+	dead = false;
 }
 
 void Snake::move(){
 	isInitialized();
-	
-	Image *sprite;
+
 	int nextX = 0, nextY = 0;
 	int Xmovement = 0, Ymovement = 0;
+	int degrees=0;
 	// demo function showing how append would be 
-	if(appendNum > 0){
+	if(appendNum > 0 && linksUsed < SNAKE_MAX_LENGTH){
 		links[linksUsed++].inUse = true;
 		appendNum--;
 	}
@@ -70,18 +79,22 @@ void Snake::move(){
 	switch(movementDir){
 	case(Right):
 		 Xmovement++;
+		 degrees = 90;
 		 break;
 	
 	case(Left):
 		Xmovement--;
+		degrees = 270;
 		break;
 	
 	case(Up):
 		Ymovement--;
+		degrees = 0;
 		break;
 	
 	case(Down):
 		Ymovement++;
+		degrees = 180;
 		break;
 	}
 	
@@ -97,41 +110,17 @@ void Snake::move(){
 		// update x/y in accordance with the next link in the chain
 		if(links[currentLink - 1].x == nextX && links[currentLink - 1].y == nextY)
 			dead = true;
-		links[currentLink].x = links[currentLink - 1].x;
-		links[currentLink].y = links[currentLink - 1].y;
-		// update sprite location based on the new x/y location of the link
-		sprite = &links[currentLink].sprite;
-		sprite->setX(links[currentLink].x * BOARD_CELL_WIDTH);
-		sprite->setY(links[currentLink].y * BOARD_CELL_HEIGHT);
-		if(xDirection)
-			sprite->setDegrees(90 *-xDirection);
-		else if(yDirection)
-			sprite->setDegrees(90 * (yDirection-1));
-	}
-	
-	sprite = &links[0].sprite;
-	
-	links[0].x = nextX;
-	links[0].y = nextY;
 
-	sprite->setX(nextX * BOARD_CELL_WIDTH);
-	sprite->setY(nextY * BOARD_CELL_HEIGHT);
-	int degrees=0;
-	switch(movementDir){
-	case(Right):
-		degrees = 90;
-		break;
-	case(Left):
-		degrees = 270;
-		break;
-	case(Up):
-		degrees = 0;
-		break;
-	case(Down):
-		degrees = 180;
-		break;
+		if(xDirection)
+			links[currentLink].sprite.setDegrees(90 *-xDirection);
+		else if(yDirection)
+			links[currentLink].sprite.setDegrees(90 * (yDirection-1));
+
+		updateLink(links[currentLink], links[currentLink-1].x, links[currentLink-1].y);
 	}
-	sprite->setDegrees(degrees);
+
+	updateLink(links[0], nextX, nextY);
+	links[0].sprite.setDegrees(degrees);
 }
 
 void Snake::append(UINT toAdd){
@@ -155,21 +144,21 @@ void Snake::setMovementDirection(Direction newDir){
 void Snake::draw(){
 	isInitialized();
 
-	for( int i = 0; i < linksUsed; ++i){
-		if(!links[i].inUse)
-			break;
+	for( int i = 0; i < linksUsed && links[i].inUse; ++i){
 		links[i].sprite.draw();
 	}
 }
 
 void Snake::onLostDevice(){
 	isInitialized();
+	headTexture.onLostDevice();
 	linkTexture.onLostDevice();
 	headTexture.onLostDevice();
 }
 
 void Snake::onResetDevice(){
 	isInitialized();
+	headTexture.onResetDevice();
 	linkTexture.onResetDevice();
 	headTexture.onResetDevice();
 }

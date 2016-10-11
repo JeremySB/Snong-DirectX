@@ -58,7 +58,6 @@ void Snong::update()
 
 
 #pragma region player1Input
-	bool hasChangedDirection = false;
 	if(input->isKeyDown(P1_UP) && Player1.getMovementDirection() != Down)
 		Player1.setMovementDirection(Up);
 	else if(input->isKeyDown(P1_DOWN) && Player1.getMovementDirection() != Up)
@@ -74,11 +73,11 @@ void Snong::update()
 
 	if(input->isKeyDown(P2_UP) && Player2.getMovementDirection() != Down)
 		Player2.setMovementDirection(Up);
-	if(input->isKeyDown(P2_DOWN) && Player2.getMovementDirection() != Up)
+	else if(input->isKeyDown(P2_DOWN) && Player2.getMovementDirection() != Up)
 		Player2.setMovementDirection(Down);
-	if(input->isKeyDown(P2_RIGHT) && Player2.getMovementDirection() != Left)
+	else if(input->isKeyDown(P2_RIGHT) && Player2.getMovementDirection() != Left)
 		Player2.setMovementDirection(Right);
-	if(input->isKeyDown(P2_LEFT) && Player2.getMovementDirection() != Right)
+	else if(input->isKeyDown(P2_LEFT) && Player2.getMovementDirection() != Right)
 		Player2.setMovementDirection(Left);
 #pragma endregion
 
@@ -86,6 +85,7 @@ if((timeSinceLastMove += frameTime) >= SNAKE_UPDATE_TIME){
 	Player1.move();
 	Player2.move();
 	timeSinceLastMove = 0;
+	Player1.append(2);
 	if(Player1.isDead() && Player2.isDead()){
 		Player1.wipe();
 		Player2.wipe();

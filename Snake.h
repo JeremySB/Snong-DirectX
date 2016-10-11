@@ -42,7 +42,7 @@ private:
 		int x, y;
 		bool inUse;
 	};
-	void updateLink(Link input, int newX, int newY);
+	void updateLink(Link &input, int newX, int newY);
 	
 	// Doubly Linked List<Link>
 	Graphics* graphics;

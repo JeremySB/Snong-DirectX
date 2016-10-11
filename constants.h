@@ -57,8 +57,8 @@ const FLOAT BOARD_CELL_HEIGHT = (float) GAME_HEIGHT / (float) BOARD_HEIGHT;
 const UINT SNAKE_MAX_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / 30;
 const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 8;//4;
 const FLOAT SNAKE_UPDATE_TIME = .2f;
-const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTexture.png";
-const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTexture.png";
+const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP1.png";
+const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
 
 // Ball constants
 const float BALL_STARTING_VEL_X = 40;
