@@ -81,21 +81,23 @@ void Snong::update()
 		Player2.setMovementDirection(Left);
 #pragma endregion
 
-if((timeSinceLastMove += frameTime) >= SNAKE_UPDATE_TIME){
-	Player1.move();
-	Player2.move();
-	timeSinceLastMove = 0;
-	Player1.append(2);
-	if(Player1.isDead() && Player2.isDead()){
-		Player1.wipe();
-		Player2.wipe();
+	if((timeSinceLastMove += frameTime) >= SNAKE_UPDATE_TIME){
+		Player1.move();
+		Player2.move();
+		timeSinceLastMove = 0;
+		Player1.append(2);
+		if(Player1.isDead() && Player2.isDead()){
+			Player1.wipe();
+			Player2.wipe();
+			ball.reset();
+		}
+		else if(Player1.isDead() || Player2.isDead()){
+			(Player1.isDead() ? Player2Score : Player1Score)++;
+			Player1.wipe();
+			Player2.wipe();
+			ball.reset();
+		}
 	}
-	else if(Player1.isDead() || Player2.isDead()){
-		(Player1.isDead() ? Player2Score : Player1Score)++;
-		Player1.wipe();
-		Player2.wipe();
-	}
-}
 }
 
 //=============================================================================
@@ -108,7 +110,22 @@ void Snong::ai()
 // Handle collisions
 //=============================================================================
 void Snong::collisions()
-{}
+{
+	// todo: check every head link in Ball for collision
+
+	
+	// left border
+	if(ball.getX() <= BORDER_VERTICAL_WIDTH && ball.getVelocity().x <= 0) {
+		Player1.setDead(true);
+		//ball.reset();
+	}
+
+	// right border
+	if(ball.getX() + ball.getWidth()*ball.getScale() >= GAME_WIDTH - BORDER_VERTICAL_WIDTH && ball.getVelocity().x >= 0) {
+		Player2.setDead(true);
+		//ball.reset();
+	}
+}
 
 //=============================================================================
 // Render game items
