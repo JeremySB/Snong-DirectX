@@ -15,7 +15,7 @@ public:
 	Snake();
 	~Snake();
 
-	void initialize(Graphics* graphics, int x = 0, int y = 0);
+	void initialize(Graphics* graphics, int x = 0, int y = 0, const char *headTexture = SNAKE_HEAD_TEXTURE, const char *linkTexture = SNAKE_LINK_TEXTURE);
 
 	void wipe();	// will be made to reduce the snake to a size of 1 and set its append variable to SNAKE_HEAD_SIZE
 	void move();	// updates the position of the snake

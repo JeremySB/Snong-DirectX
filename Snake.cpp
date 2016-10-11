@@ -7,16 +7,16 @@ Snake::Snake():initialized(false),linksUsed(0),dead(false),appendNum(SNAKE_HEAD_
 Snake::~Snake(){
 }
 
-void Snake::initialize(Graphics *graphics, int x, int y){
+void Snake::initialize(Graphics *graphics, int x, int y,  const char *headTexture, const char *linkTexture){
 	// checks for initialization
 	if(initialized)
 		throw GameError::exception("Snake was already initialized");
 
 	// makes sure we can make the textures
-	if (!this->linkTexture.initialize(graphics,SNAKE_LINK_TEXTURE))
+	if (!this->linkTexture.initialize(graphics, linkTexture))
 		throw GameError::exception("SnakeLink texture could not be initialized");
 
-	if (!this->headTexture.initialize(graphics, SNAKE_HEAD_TEXTURE))
+	if (!this->headTexture.initialize(graphics, headTexture))
 		throw GameError::exception("Snake Head texture could not be initialized");
 	
 	defaultX = x;

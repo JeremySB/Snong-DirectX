@@ -91,10 +91,22 @@
     <Image Include="pictures\ball.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="pictures\HeadTexture.png">
+    <Image Include="pictures\ball.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="pictures\LinkTexture.png">
+    <Image Include="pictures\FaceTextureP1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\HeadTextureP1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\HeadTextureP2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\LinkTextureP1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\LinkTextureP2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
