@@ -10,7 +10,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-Snong::Snong():lastMove(0){
+Snong::Snong():timeSinceLastMove(0){
 	// todo: currently has error because players aren't constructed.
 }
 
@@ -58,14 +58,14 @@ void Snong::update()
 
 
 #pragma region player1Input
-
+	bool hasChangedDirection = false;
 	if(input->isKeyDown(P1_UP) && Player1.getMovementDirection() != Down)
 		Player1.setMovementDirection(Up);
-	if(input->isKeyDown(P1_DOWN) && Player1.getMovementDirection() != Up)
+	else if(input->isKeyDown(P1_DOWN) && Player1.getMovementDirection() != Up)
 		Player1.setMovementDirection(Down);
-	if(input->isKeyDown(P1_RIGHT) && Player1.getMovementDirection() != Left)
+	else if(input->isKeyDown(P1_RIGHT) && Player1.getMovementDirection() != Left)
 		Player1.setMovementDirection(Right);
-	if(input->isKeyDown(P1_LEFT) && Player1.getMovementDirection() != Right)
+	else if(input->isKeyDown(P1_LEFT) && Player1.getMovementDirection() != Right)
 		Player1.setMovementDirection(Left);
 
 #pragma endregion
@@ -82,16 +82,18 @@ void Snong::update()
 		Player2.setMovementDirection(Left);
 #pragma endregion
 
-this->lastMove += frameTime;
-
-if(this->lastMove >= SNAKE_UPDATE_TIME){
+if((timeSinceLastMove += frameTime) >= SNAKE_UPDATE_TIME){
 	Player1.move();
 	Player2.move();
-	this->lastMove = 0;
-	if(Player1.isDead() || Player2.isDead()){
+	timeSinceLastMove = 0;
+	if(Player1.isDead() && Player2.isDead()){
+		Player1.wipe();
+		Player2.wipe();
+	}
+	else if(Player1.isDead() || Player2.isDead()){
 		(Player1.isDead() ? Player2Score : Player1Score)++;
-		//Player1.wipe();
-		//Player2.wipe();
+		Player1.wipe();
+		Player2.wipe();
 	}
 }
 }

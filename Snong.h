@@ -22,7 +22,7 @@ private:
 	UINT Player1Score, Player2Score;
 	Ball ball; // ball entity
 	TextureManager ballTexture;
-	float lastMove;
+	float timeSinceLastMove;
 
 public:
     // Constructor

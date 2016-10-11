@@ -17,7 +17,8 @@ void Ball::update(float frameTime) {
 	Entity::update(frameTime);
 
 	setX(getX() + frameTime * velocity.x);
-	setY(getY() + frameTime * velocity.y); 
+	setY(getY() + frameTime * velocity.y);
+ 
 
 	// top/bottom wall collision
 	

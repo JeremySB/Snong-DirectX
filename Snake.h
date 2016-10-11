@@ -3,7 +3,6 @@
 
 #include "textureManager.h"
 #include "image.h"
-//#include <list>
 
 
 // enum to store what direction we are moving
@@ -16,7 +15,7 @@ public:
 	Snake();
 	~Snake();
 
-	void initialize(Graphics* graphics);
+	void initialize(Graphics* graphics, int x = 0, int y = 0);
 
 	void wipe();	// will be made to reduce the snake to a size of 1 and set its append variable to SNAKE_HEAD_SIZE
 	void move();	// updates the position of the snake
@@ -37,12 +36,13 @@ private:
 	Direction movementDir;
 	
 	struct Link{
-		Link(Graphics* graphics, TextureManager* texture, int ncols = 1);
+		//Link(Graphics* graphics, TextureManager* texture, int ncols = 1);
 		Link():x(0),y(0),inUse(false){};
 		Image sprite;
 		int x, y;
 		bool inUse;
 	};
+	void updateLink(Link input, int newX, int newY);
 	
 	// Doubly Linked List<Link>
 	Graphics* graphics;
@@ -54,6 +54,7 @@ private:
 	Link links[SNAKE_MAX_LENGTH];
 	unsigned int appendNum;
 	unsigned int linksUsed;
+	unsigned int defaultX,defaultY;
 	bool initialized;
 	bool dead;
 };
