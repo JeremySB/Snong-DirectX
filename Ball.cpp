@@ -7,6 +7,7 @@ Ball::Ball(void)
 }
 
 bool Ball::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+	setScale(BALL_SCALE);
 	velocity.x = BALL_STARTING_VEL_X;
 	velocity.y = BALL_STARTING_VEL_Y;
 	reset();
