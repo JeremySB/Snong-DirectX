@@ -36,7 +36,7 @@ void Snong::initialize(HWND hwnd)
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
 			GameError(gameErrorNS::FATAL_ERROR, "Ball texture initialization failed");
 
-	if(!ball.initialize(this, 27, 17, 1, &ballTexture))
+	if(!ball.initialize(this, 0, 0, 1, &ballTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Ball image initialization failed");
 
 	Player1.setMovementDirection(Right);

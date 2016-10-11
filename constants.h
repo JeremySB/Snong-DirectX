@@ -28,7 +28,7 @@
 //-----------------------------------------------
 // graphic images
 //const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
-const char BALL_IMAGE[] = "pictures\\ball.jpg";  // photo source NASA/courtesy of nasaimages.org 
+const char BALL_IMAGE[] = "pictures\\ball.png";  // photo source NASA/courtesy of nasaimages.org 
 
 // window
 const char CLASS_NAME[] = "Snong";
@@ -63,6 +63,7 @@ const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
 // Ball constants
 const float BALL_STARTING_VEL_X = 40;
 const float BALL_STARTING_VEL_Y = 100;
+const float BALL_SCALE = 0.3;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
