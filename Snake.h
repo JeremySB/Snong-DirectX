@@ -25,6 +25,8 @@ public:
 	void setMovementDirection(Direction newDir);
 
 	void draw();
+
+	void setDead(bool state) { dead = state; }
 	
 	bool isDead() const;
 	void onLostDevice();

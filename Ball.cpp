@@ -34,15 +34,6 @@ void Ball::update(float frameTime) {
 		velocity.y *= -1;
 	}
 
-	// left border
-	if(getX() <= BORDER_VERTICAL_WIDTH && velocity.x <= 0) {
-		reset();
-	}
-
-	// right border
-	if(getX() + getWidth()*getScale() >= GAME_WIDTH - BORDER_VERTICAL_WIDTH && velocity.x >= 0) {
-		reset();
-	}
 }
 
 void Ball::reset() {
