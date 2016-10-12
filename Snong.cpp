@@ -29,8 +29,8 @@ Snong::~Snong()
 void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	Player1.initialize(graphics, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
-	Player2.initialize(graphics, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
+	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
+	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
 
 	// ball initializations
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 

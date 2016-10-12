@@ -4,6 +4,7 @@
 #include "textureManager.h"
 #include "image.h"
 #include "entity.h"
+#include "game.h"
 
 
 // enum to store what direction we are moving
@@ -16,8 +17,8 @@ public:
 	Snake();
 	~Snake();
 
-	void initialize(Graphics* graphics, int x = 0, int y = 0, const char *headTexture = SNAKE_HEAD_TEXTURE, const char *linkTexture = SNAKE_LINK_TEXTURE);
-
+//	void initialize(Graphics* graphics, int x = 0, int y = 0, const char *headTexture = SNAKE_HEAD_TEXTURE, const char *linkTexture = SNAKE_LINK_TEXTURE);
+	void initialize(Game* game, int x = 0, int y = 0, const char *headTexture = SNAKE_HEAD_TEXTURE, const char *linkTexture = SNAKE_LINK_TEXTURE);
 	void wipe();	// will be made to reduce the snake to a size of 1 and set its append variable to SNAKE_HEAD_SIZE
 	void move();	// updates the position of the snake
 	void append(UINT toAdd);
@@ -36,18 +37,18 @@ public:
 	void onResetDevice();
 
 private:
-	struct Link{
-		Link():x(0),y(0),inUse(false){};
+	struct Link: Entity{
+		Link():boardX(0),boardY(0),inUse(false){};
 		//Image 
-		Entity sprite;
-		int x, y;
+		//Entity sprite;
+		int boardX, boardY;
 		bool inUse;
 	};
 	inline void isInitialized();
 	void updateLink(Link &input, int newX, int newY);
 	
 	// Doubly Linked List<Link>
-	Graphics* graphics;
+	//Graphics* graphics;
 	
 	TextureManager linkTexture;
 	TextureManager headTexture;

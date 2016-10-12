@@ -7,16 +7,16 @@ Snake::Snake():initialized(false),linksUsed(0),dead(false),appendNum(SNAKE_HEAD_
 Snake::~Snake(){
 }
 
-void Snake::initialize(Graphics *graphics, int x, int y,  const char *headTexture, const char *linkTexture){
+void Snake::initialize(Game *game, int x, int y,  const char *headTexture, const char *linkTexture){
 	// checks for initialization
 	if(initialized)
 		throw GameError::exception("Snake was already initialized");
 
 	// makes sure we can make the textures
-	if (!this->linkTexture.initialize(graphics, linkTexture))
+	if (!this->linkTexture.initialize(game->getGraphics(), linkTexture))
 		throw GameError::exception("SnakeLink texture could not be initialized");
 
-	if (!this->headTexture.initialize(graphics, headTexture))
+	if (!this->headTexture.initialize(game->getGraphics(), headTexture))
 		throw GameError::exception("Snake Head texture could not be initialized");
 	
 	defaultX = x;
@@ -24,15 +24,14 @@ void Snake::initialize(Graphics *graphics, int x, int y,  const char *headTextur
 	
 	// initializes all of the links we will use 
 	for ( int i = 0; i < SNAKE_MAX_LENGTH; i++){
-		Image* sprite = &links[i].sprite;
-
-		if(i < SNAKE_HEAD_SIZE && !sprite->initialize(graphics, this->headTexture.getWidth(),this->headTexture.getHeight(), 1, &this->headTexture))
+		//Image* sprite = &links[i];
+		if(i < SNAKE_HEAD_SIZE && !links[i].initialize(game, this->headTexture.getWidth(),this->headTexture.getHeight(), 1, &this->headTexture))
 			throw GameError::exception("Snake link not able to initialize");
 		
-		if(i >= SNAKE_HEAD_SIZE && !sprite->initialize(graphics, this->linkTexture.getWidth(),this->linkTexture.getHeight(), 1, &this->linkTexture))
+		if(i >= SNAKE_HEAD_SIZE && !links[i].initialize(game, this->linkTexture.getWidth(),this->linkTexture.getHeight(), 1, &this->linkTexture))
 			throw GameError::exception("Snake link not able to initialize");
 		
-		sprite->setScale( BOARD_CELL_HEIGHT / (float)(i < SNAKE_HEAD_SIZE ? this->headTexture : this->linkTexture).getHeight());
+		links[i].setScale( BOARD_CELL_HEIGHT / (float)(i < SNAKE_HEAD_SIZE ? this->headTexture : this->linkTexture).getHeight());
 		updateLink(links[i], defaultX, defaultY);
 	}
 	
@@ -88,25 +87,26 @@ void Snake::move(){
 		break;
 	}
 	
-	nextX = Xmovement + links[0].x;
-	nextY = Ymovement + links[0].y;
+	nextX = Xmovement + links[0].boardX;
+	nextY = Ymovement + links[0].boardY;
 	
 	if(nextX < 0 || nextX > BOARD_WIDTH || nextY < 0 || nextY > BOARD_HEIGHT)
 		dead = true;
 
 	for(int currentLink = linksUsed - 1; currentLink > 0; --currentLink){
-		int xDirection = links[currentLink].x - links[currentLink-1].x;
-		int yDirection = links[currentLink].y - links[currentLink-1].y;
+		D3DXVECTOR2 direction;
+		direction.x = links[currentLink].boardX - links[currentLink-1].boardX;
+		direction.y = links[currentLink].boardY - links[currentLink-1].boardY;
 		// update x/y in accordance with the next link in the chain
-		if(links[currentLink - 1].x == nextX && links[currentLink - 1].y == nextY)
+		if(links[currentLink - 1].boardX == nextX && links[currentLink - 1].boardY == nextY)
 			dead = true;
-
-		updateLink(links[currentLink], links[currentLink-1].x, links[currentLink-1].y);
-		links[currentLink].sprite.setDegrees(links[currentLink-1].sprite.getDegrees());
+		links[currentLink].setVelocity(direction);
+		updateLink(links[currentLink], links[currentLink-1].boardX, links[currentLink-1].boardY);
+		links[currentLink].setDegrees(links[currentLink-1].getDegrees());
 	}
 
 	updateLink(links[0], nextX, nextY);
-	links[0].sprite.setDegrees(degrees);
+	links[0].setDegrees(degrees);
 }
 
 void Snake::append(UINT toAdd){
@@ -127,14 +127,14 @@ void Snake::draw(){
 	isInitialized();
 
 	for( int i = 0; i < linksUsed && links[i].inUse; ++i){
-		links[i].sprite.draw();
+		links[i].draw();
 	}
 }
 
 Entity** Snake::getEntities(){
 	Entity *ret[SNAKE_HEAD_SIZE];
 	for(int currentHead = 0; currentHead < SNAKE_HEAD_SIZE; currentHead++){
-		ret[currentHead] = &links[currentHead].sprite;
+		ret[currentHead] = &links[currentHead];
 	}
 	return ret;
 }
@@ -167,8 +167,8 @@ inline void Snake::isInitialized(){
 }
 
 void Snake::updateLink(Link &input, int newX, int newY){
-	input.x = newX;
-	input.y = newY;
-	input.sprite.setX(newX * BOARD_CELL_WIDTH);
-	input.sprite.setY(newY * BOARD_CELL_HEIGHT);
+	input.boardX = newX;
+	input.boardY = newY;
+	input.setX(newX * BOARD_CELL_WIDTH);
+	input.setY(newY * BOARD_CELL_HEIGHT);
 }
