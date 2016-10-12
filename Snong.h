@@ -19,6 +19,8 @@ class Snong : public Game
 private:
     // variables
 	Snake Player1, Player2;
+	Entity **P1Head;
+	Entity **P2Head;
 	UINT Player1Score, Player2Score;
 	Ball ball; // ball entity
 	TextureManager ballTexture;

@@ -43,7 +43,12 @@ void Snake::initialize(Game *game, int x, int y,  const char *headTexture, const
 	this->initialized = true;
 }
 
-Snake::Link::Link():Entity(), boardX(0),boardY(0){}
+Snake::Link::Link(): Entity(), boardX(0),boardY(0){
+	edge = SNAKE_LINK_RECT;
+	spriteData.rect = SNAKE_LINK_RECT;
+	radius = SNAKE_LINK_RADIUS;
+	collisionType = entityNS::CIRCLE;
+}
 
 void Snake::wipe(){
 	isInitialized();
@@ -138,7 +143,7 @@ void Snake::draw(){
 Entity** Snake::getEntities(){
 	Entity *ret[SNAKE_HEAD_SIZE];
 	for(int currentHead = 0; currentHead < SNAKE_HEAD_SIZE; currentHead++){
-		ret[currentHead] = &links[currentHead];
+		ret[currentHead] = &(Entity)links[currentHead];
 	}
 	return ret;
 }

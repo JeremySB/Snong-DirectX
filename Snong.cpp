@@ -29,8 +29,8 @@ Snong::~Snong()
 void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
-	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
+	Player1.initialize(this, BOARD_WIDTH/3, BOARD_HEIGHT/2, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
+	Player2.initialize(this, (BOARD_WIDTH/3) * 2, BOARD_HEIGHT/2, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
 
 	// ball initializations
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
@@ -40,7 +40,9 @@ void Snong::initialize(HWND hwnd)
 			GameError(gameErrorNS::FATAL_ERROR, "Ball image initialization failed");
 
 	Player1.setMovementDirection(Right);
-	Player2.setMovementDirection(Down);
+	Player2.setMovementDirection(Left);
+	P1Head = Player1.getEntities();
+	P2Head = Player2.getEntities();
     return;
 }
 
@@ -110,8 +112,7 @@ void Snong::collisions()
 {
 	// todo: check every head link in Ball for collision
 	VECTOR2 collision;
-	Entity** P1Head = Player1.getEntities();
-	Entity** P2Head = Player2.getEntities();
+
 	
 	// left border
 	if(ball.getX() <= BORDER_VERTICAL_WIDTH && ball.getVelocity().x <= 0) {
@@ -125,16 +126,18 @@ void Snong::collisions()
 		//ball.reset();
 	}
 
-/*	for( int i = 0; i < SNAKE_HEAD_SIZE; i++){
+	for( int i = 0; i < SNAKE_HEAD_SIZE; i++){
 		if(P1Head[i]->collidesWith(ball, collision)){
 			ball.bounce(collision,*P1Head[i]);
 			Player1.append(1);
+			break;
 		}
 		if(P2Head[i]->collidesWith(ball,collision)){
 			ball.bounce(collision, *P2Head[i]);
 			Player2.append(1);
+			break;
 		}
-	}*/
+	}
 }
 
 //=============================================================================

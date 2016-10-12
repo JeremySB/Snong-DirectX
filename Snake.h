@@ -36,14 +36,15 @@ public:
 	void onLostDevice();
 	void onResetDevice();
 
-private:
-	struct Link: Entity{
+	struct Link: public Entity{
 		Link();
 		//Image 
 		//Entity sprite;
 		int boardX, boardY;
 		//bool inUse;
 	};
+	Link links[SNAKE_MAX_LENGTH];
+private:
 	inline void isInitialized();
 	void updateLink(Link &input, int newX, int newY);
 	
@@ -53,7 +54,6 @@ private:
 	TextureManager linkTexture;
 	TextureManager headTexture;
 	
-	Link links[SNAKE_MAX_LENGTH];
 	Direction movementDir;
 	unsigned int appendNum;
 	unsigned int linksUsed;
