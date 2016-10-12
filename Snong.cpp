@@ -109,7 +109,9 @@ void Snong::ai()
 void Snong::collisions()
 {
 	// todo: check every head link in Ball for collision
-
+	VECTOR2 collision;
+	Entity** P1Head = Player1.getEntities();
+	Entity** P2Head = Player2.getEntities();
 	
 	// left border
 	if(ball.getX() <= BORDER_VERTICAL_WIDTH && ball.getVelocity().x <= 0) {
@@ -122,6 +124,17 @@ void Snong::collisions()
 		Player2.setDead(true);
 		//ball.reset();
 	}
+
+/*	for( int i = 0; i < SNAKE_HEAD_SIZE; i++){
+		if(P1Head[i]->collidesWith(ball, collision)){
+			ball.bounce(collision,*P1Head[i]);
+			Player1.append(1);
+		}
+		if(P2Head[i]->collidesWith(ball,collision)){
+			ball.bounce(collision, *P2Head[i]);
+			Player2.append(1);
+		}
+	}*/
 }
 
 //=============================================================================

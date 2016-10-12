@@ -38,11 +38,11 @@ public:
 
 private:
 	struct Link: Entity{
-		Link():boardX(0),boardY(0),inUse(false){};
+		Link();
 		//Image 
 		//Entity sprite;
 		int boardX, boardY;
-		bool inUse;
+		//bool inUse;
 	};
 	inline void isInitialized();
 	void updateLink(Link &input, int newX, int newY);

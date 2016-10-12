@@ -35,17 +35,21 @@ void Snake::initialize(Game *game, int x, int y,  const char *headTexture, const
 		updateLink(links[i], defaultX, defaultY);
 	}
 	
-	links[linksUsed++].inUse = true;
+	//links[linksUsed++].inUse = true;
+	links[linksUsed++].setVisible(true);
 	updateLink(links[linksUsed], defaultX, defaultY);
 	appendNum--;
 
 	this->initialized = true;
 }
 
+Snake::Link::Link():Entity(), boardX(0),boardY(0){}
+
 void Snake::wipe(){
 	isInitialized();
 	for ( int i = 1; i < linksUsed; i++){
-		links[i].inUse = false;
+		links[i].setVisible(false);
+		links[i].setActive(false);
 	}
 	appendNum = SNAKE_HEAD_SIZE - 1;
 	linksUsed = 1;
@@ -56,56 +60,56 @@ void Snake::wipe(){
 void Snake::move(){
 	isInitialized();
 
-	int nextX = 0, nextY = 0;
-	int Xmovement = 0, Ymovement = 0;
+	VECTOR2 movement(0,0);//int Xmovement = 0, Ymovement = 0;
 	int degrees=0;
+	int currentLink = 0;
 	// demo function showing how append would be 
 	if(appendNum > 0 && linksUsed < SNAKE_MAX_LENGTH){
-		links[linksUsed++].inUse = true;
+		if(linksUsed < SNAKE_HEAD_SIZE)
+			links[linksUsed].setActive(true);
+		links[linksUsed++].setVisible(true);
 		appendNum--;
 	}
 
 	switch(movementDir){
 	case(Right):
-		 Xmovement++;
+		 movement.x++;
 		 degrees = 90;
 		 break;
 	
 	case(Left):
-		Xmovement--;
+		movement.x--;
 		degrees = 270;
 		break;
 	
 	case(Up):
-		Ymovement--;
+		movement.y--;
 		degrees = 0;
 		break;
 	
 	case(Down):
-		Ymovement++;
+		movement.y++;
 		degrees = 180;
 		break;
 	}
+	VECTOR2 next(movement.x + links[0].boardX, movement.y + links[0].boardY);
 	
-	nextX = Xmovement + links[0].boardX;
-	nextY = Ymovement + links[0].boardY;
-	
-	if(nextX < 0 || nextX > BOARD_WIDTH || nextY < 0 || nextY > BOARD_HEIGHT)
+	if(next.x < 0 || next.x > BOARD_WIDTH || next.y < 0 || next.y > BOARD_HEIGHT)
 		dead = true;
 
 	for(int currentLink = linksUsed - 1; currentLink > 0; --currentLink){
-		D3DXVECTOR2 direction;
-		direction.x = links[currentLink].boardX - links[currentLink-1].boardX;
-		direction.y = links[currentLink].boardY - links[currentLink-1].boardY;
 		// update x/y in accordance with the next link in the chain
-		if(links[currentLink - 1].boardX == nextX && links[currentLink - 1].boardY == nextY)
+		if(links[currentLink - 1].boardX == next.x && links[currentLink - 1].boardY == next.y)
 			dead = true;
-		links[currentLink].setVelocity(direction);
+		
+		links[currentLink].setVelocity(VECTOR2(links[currentLink].boardX - links[currentLink - 1].boardX,
+			links[currentLink].boardY - links[currentLink - 1].boardY));
+
 		updateLink(links[currentLink], links[currentLink-1].boardX, links[currentLink-1].boardY);
+		
 		links[currentLink].setDegrees(links[currentLink-1].getDegrees());
 	}
-
-	updateLink(links[0], nextX, nextY);
+	updateLink(links[0], next.x, next.y);
 	links[0].setDegrees(degrees);
 }
 
@@ -126,7 +130,7 @@ void Snake::setMovementDirection(Direction newDir){
 void Snake::draw(){
 	isInitialized();
 
-	for( int i = 0; i < linksUsed && links[i].inUse; ++i){
+	for( int i = 0; i < linksUsed && links[i].getVisible(); ++i){
 		links[i].draw();
 	}
 }
