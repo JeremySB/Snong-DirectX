@@ -29,8 +29,24 @@ Snong::~Snong()
 void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
+<<<<<<< HEAD
 	Player1.initialize(this, BOARD_WIDTH/3, BOARD_HEIGHT/2, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
 	Player2.initialize(this, (BOARD_WIDTH/3) * 2, BOARD_HEIGHT/2, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
+=======
+	
+	// background initializations
+	if(!backgroundTexture.initialize(graphics, BACKGROUND_IMAGE)) 
+			GameError(gameErrorNS::FATAL_ERROR, "Background texture initialization failed");
+
+	if(!backgroundImage.initialize(graphics, 0, 0, 1, &backgroundTexture))
+			GameError(gameErrorNS::FATAL_ERROR, "Background image initialization failed");
+	backgroundImage.setX(0);
+	backgroundImage.setY(0);
+
+	
+	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
+	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
+>>>>>>> 1e4d4437d759a1a699402bf67111bdfc989a1f75
 
 	// ball initializations
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
@@ -146,6 +162,7 @@ void Snong::collisions()
 void Snong::render()
 {
 	graphics->spriteBegin();
+	backgroundImage.draw();
 	ball.draw();
 	Player1.draw();
 	Player2.draw();
@@ -161,12 +178,13 @@ void Snong::releaseAll()
 	Player1.onLostDevice();
 	Player2.onLostDevice();
     ballTexture.onLostDevice();
+	backgroundTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
 
 //=============================================================================
-// The grahics device has been reset.
+// The graphics device has been reset.
 // Recreate all surfaces.
 //=============================================================================
 void Snong::resetAll()
@@ -174,6 +192,7 @@ void Snong::resetAll()
 	Player1.onResetDevice();
 	Player2.onResetDevice();
     ballTexture.onResetDevice();
+	backgroundTexture.onResetDevice();
 	Game::resetAll();
     return;
 }
