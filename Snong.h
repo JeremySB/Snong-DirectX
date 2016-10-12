@@ -22,6 +22,8 @@ private:
 	UINT Player1Score, Player2Score;
 	Ball ball; // ball entity
 	TextureManager ballTexture;
+	TextureManager backgroundTexture;
+	Image backgroundImage;
 	float timeSinceLastMove;
 
 public:
