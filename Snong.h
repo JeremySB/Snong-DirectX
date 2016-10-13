@@ -21,9 +21,12 @@ private:
 	Snake Player1, Player2;
 	UINT Player1Score, Player2Score;
 	Ball ball; // ball entity
+	Image backgroundImage;
+	Image borderImage1;
+	Image borderImage2;
 	TextureManager ballTexture;
 	TextureManager backgroundTexture;
-	Image backgroundImage;
+	TextureManager borderTexture;
 	float timeSinceLastMove;
 
 public:

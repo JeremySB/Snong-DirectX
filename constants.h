@@ -29,7 +29,8 @@
 // graphic images
 //const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
 const char BALL_IMAGE[] = "pictures\\ball.png";  // photo source NASA/courtesy of nasaimages.org 
-const char BACKGROUND_IMAGE[] = "pictures\\background.png";
+const char BACKGROUND_IMAGE[] = "pictures\\background2.png";
+const char BORDER_IMAGE[] = "pictures\\laser.png";
 
 // window
 const char CLASS_NAME[] = "Snong";
@@ -38,6 +39,7 @@ const char GAME_TITLE[] = "Snong: The Game";
 const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  640;               // width of game in pixels
 const UINT GAME_HEIGHT = 480;               // height of game in pixels
+const UINT WIDTH_BETWEEN_ARENAS = 80;		// width of the "no man's land" between snake arenas
 
 // game
 const double PI = 3.14159265;

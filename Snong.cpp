@@ -39,6 +39,21 @@ void Snong::initialize(HWND hwnd)
 	backgroundImage.setX(0);
 	backgroundImage.setY(0);
 
+
+	// border initializations
+	if(!borderTexture.initialize(graphics, BORDER_IMAGE)) 
+			GameError(gameErrorNS::FATAL_ERROR, "Border texture initialization failed");
+
+	if(!borderImage1.initialize(graphics, 0, GAME_HEIGHT, 0, &borderTexture))
+			GameError(gameErrorNS::FATAL_ERROR, "Border image initialization failed");
+	borderImage1.setX(GAME_WIDTH/2 - WIDTH_BETWEEN_ARENAS/2 - borderImage1.getWidth());
+	borderImage1.setY(0);
+
+	if(!borderImage2.initialize(graphics, 0, GAME_HEIGHT, 0, &borderTexture))
+			GameError(gameErrorNS::FATAL_ERROR, "Border image initialization failed");
+	borderImage2.setX(GAME_WIDTH/2 + WIDTH_BETWEEN_ARENAS/2);
+	borderImage2.setY(0);
+
 	
 	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
 	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
@@ -155,6 +170,8 @@ void Snong::render()
 {
 	graphics->spriteBegin();
 	backgroundImage.draw();
+	borderImage1.draw();
+	borderImage2.draw();
 	ball.draw();
 	Player1.draw();
 	Player2.draw();
@@ -171,6 +188,7 @@ void Snong::releaseAll()
 	Player2.onLostDevice();
     ballTexture.onLostDevice();
 	backgroundTexture.onLostDevice();
+	borderTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -185,6 +203,7 @@ void Snong::resetAll()
 	Player2.onResetDevice();
     ballTexture.onResetDevice();
 	backgroundTexture.onResetDevice();
+	borderTexture.onResetDevice();
 	Game::resetAll();
     return;
 }
