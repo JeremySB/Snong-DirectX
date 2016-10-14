@@ -162,11 +162,13 @@ void Snong::collisions()
 	for( int i = 0; i < SNAKE_HEAD_SIZE; i++){
 		if(ball.collidesWith(*P1Head[i], collision)){
 			ball.bounce(collision,*P1Head[i]);
+			ball.setVelocity(ball.getVelocity() * BALL_SPEED_MODIFIER);
 			Player1.append(1);
 			break;
 		}
 		if(ball.collidesWith(*P2Head[i],collision)){
 			ball.bounce(collision, *P2Head[i]);
+			ball.setVelocity(ball.getVelocity() * BALL_SPEED_MODIFIER);
 			Player2.append(1);
 			break;
 		}

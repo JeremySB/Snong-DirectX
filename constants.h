@@ -39,7 +39,7 @@ const char GAME_TITLE[] = "Snong: The Game";
 const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  640;               // width of game in pixels
 const UINT GAME_HEIGHT = 480;               // height of game in pixels
-const UINT WIDTH_BETWEEN_ARENAS = 80;		// width of the "no man's land" between snake arenas
+const UINT WIDTH_BETWEEN_ARENAS = GAME_WIDTH/4;//80;		// width of the "no man's land" between snake arenas
 
 // game
 const double PI = 3.14159265;
@@ -63,6 +63,7 @@ const FLOAT SNAKE_UPDATE_TIME = .1f;
 const FLOAT SNAKE_MASS = 5;
 const RECT SNAKE_LINK_RECT = {-BOARD_CELL_WIDTH/2, -BOARD_CELL_HEIGHT/2, BOARD_CELL_WIDTH/2, BOARD_CELL_HEIGHT/2};
 const FLOAT SNAKE_LINK_RADIUS = sqrt(pow(BOARD_CELL_WIDTH/2,2)+pow(BOARD_CELL_HEIGHT/2,2));
+const UINT SNAKE_LINK_MASS = 500;
 const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP1.png";
 const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
 
@@ -75,6 +76,7 @@ const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
 const float BALL_STARTING_VEL_X = 40;
 const float BALL_STARTING_VEL_Y = 100;
 const float BALL_SCALE = 0.3f;
+const FLOAT BALL_SPEED_MODIFIER = 1.2;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.

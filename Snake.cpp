@@ -47,6 +47,7 @@ Snake::Link::Link(): Entity(), boardX(0),boardY(0){
 	edge = SNAKE_LINK_RECT;
 	spriteData.rect = SNAKE_LINK_RECT;
 	radius = SNAKE_LINK_RADIUS;
+	mass = SNAKE_LINK_MASS;
 	collisionType = entityNS::CIRCLE;
 }
 
