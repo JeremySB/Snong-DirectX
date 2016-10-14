@@ -29,10 +29,10 @@ Snong::~Snong()
 void Snong::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	Player1.initialize(this, BOARD_WIDTH/3, BOARD_HEIGHT/2, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
 	Player2.initialize(this, (BOARD_WIDTH/3) * 2, BOARD_HEIGHT/2, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
-=======
+//=======
 	
 	// background initializations
 	if(!backgroundTexture.initialize(graphics, BACKGROUND_IMAGE)) 
@@ -46,7 +46,7 @@ void Snong::initialize(HWND hwnd)
 	
 	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
 	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
->>>>>>> 1e4d4437d759a1a699402bf67111bdfc989a1f75
+//>>>>>>> 1e4d4437d759a1a699402bf67111bdfc989a1f75
 
 	// ball initializations
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
