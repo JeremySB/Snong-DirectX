@@ -10,7 +10,9 @@ bool Ball::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 	setScale(BALL_SCALE);
 	velocity.x = BALL_STARTING_VEL_X;
 	velocity.y = BALL_STARTING_VEL_Y;
+	setCollisionRadius(getWidth()*getScale()/2);
 	reset();
+	activate();
 	return Entity::initialize(gamePtr, width, height, ncols, textureM);
 }
 
