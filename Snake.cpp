@@ -141,9 +141,9 @@ void Snake::draw(){
 }
 
 Entity** Snake::getEntities(){
-	Entity *ret[SNAKE_HEAD_SIZE];
+	Entity **ret = new Entity *[SNAKE_HEAD_SIZE];
 	for(int currentHead = 0; currentHead < SNAKE_HEAD_SIZE; currentHead++){
-		ret[currentHead] = &(Entity)links[currentHead];
+		ret[currentHead] = &links[currentHead];
 	}
 	return ret;
 }

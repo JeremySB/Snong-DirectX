@@ -20,6 +20,8 @@ Snong::Snong():timeSinceLastMove(0){
 Snong::~Snong()
 {
     releaseAll();           // call onLostDevice() for every graphics item
+	delete[] P1Head;
+	delete[] P2Head;
 }
 
 //=============================================================================
@@ -59,8 +61,8 @@ void Snong::initialize(HWND hwnd)
 	borderImage2.setY(0);
 
 	
-	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
-	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
+//	Player1.initialize(this, 0, 0, P1_SNAKE_HEAD_TEXTURE, P1_SNAKE_LINK_TEXTURE);
+//	Player2.initialize(this, 0, 0, P2_SNAKE_HEAD_TEXTURE, P2_SNAKE_LINK_TEXTURE);
 //>>>>>>> 1e4d4437d759a1a699402bf67111bdfc989a1f75
 
 	// ball initializations
@@ -158,12 +160,12 @@ void Snong::collisions()
 	}
 
 	for( int i = 0; i < SNAKE_HEAD_SIZE; i++){
-		if(P1Head[i]->collidesWith(ball, collision)){
+		if(ball.collidesWith(*P1Head[i], collision)){
 			ball.bounce(collision,*P1Head[i]);
 			Player1.append(1);
 			break;
 		}
-		if(P2Head[i]->collidesWith(ball,collision)){
+		if(ball.collidesWith(*P2Head[i],collision)){
 			ball.bounce(collision, *P2Head[i]);
 			Player2.append(1);
 			break;
