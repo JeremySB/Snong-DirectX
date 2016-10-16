@@ -8,8 +8,7 @@ Ball::Ball(void)
 
 bool Ball::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
 	setScale(BALL_SCALE);
-	velocity.x = BALL_STARTING_VEL_X;
-	velocity.y = BALL_STARTING_VEL_Y;
+	speed = BALL_STARTING_SPEED;
 	setCollisionRadius(getWidth()*getScale()/2);
 	reset();
 	activate();
@@ -44,6 +43,8 @@ void Ball::reset() {
 
 	srand(time(NULL));
 
-	velocity.x = BALL_STARTING_VEL_X * (rand() % 2 ? 1 : -1);
-	velocity.y = BALL_STARTING_VEL_Y * (rand() % 2 ? 1 : -1);
+	velocity.x = (rand() % 80 + 5)*(rand() % 2 ? 1 : -1);
+	velocity.y = (rand() % 90 + 10)*(rand() % 2 ? 1 : -1);
+	Graphics::Vector2Normalize(&velocity);
+	velocity *= speed;
 }

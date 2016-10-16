@@ -21,7 +21,7 @@ public:
 
 
 private:
-
+	float speed;
 	
 };
 

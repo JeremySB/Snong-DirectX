@@ -59,7 +59,7 @@ const FLOAT BOARD_CELL_HEIGHT = (float) GAME_HEIGHT / (float) BOARD_HEIGHT;
 // Snake constants
 const UINT SNAKE_MAX_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / 30;
 const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 6;/// 8;//4;
-const FLOAT SNAKE_UPDATE_TIME = .1f;
+const FLOAT SNAKE_UPDATE_TIME = .05f;
 const FLOAT SNAKE_MASS = 5;
 const RECT SNAKE_LINK_RECT = {-BOARD_CELL_WIDTH/2, -BOARD_CELL_HEIGHT/2, BOARD_CELL_WIDTH/2, BOARD_CELL_HEIGHT/2};
 const FLOAT SNAKE_LINK_RADIUS = sqrt(pow(BOARD_CELL_WIDTH/2,2)+pow(BOARD_CELL_HEIGHT/2,2));
@@ -73,8 +73,7 @@ const char P1_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
 const char P2_SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP2.png";
 const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
 // Ball constants
-const float BALL_STARTING_VEL_X = 40;
-const float BALL_STARTING_VEL_Y = 100;
+const float BALL_STARTING_SPEED = 80;
 const float BALL_SCALE = 0.3f;
 const FLOAT BALL_SPEED_MODIFIER = 1.2;
 // key mappings
