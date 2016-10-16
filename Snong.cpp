@@ -45,6 +45,16 @@ void Snong::initialize(HWND hwnd)
 	backgroundImage.setX(0);
 	backgroundImage.setY(0);
 
+	// point text initialization
+	if(!pointRedTexture.initialize(graphics, POINT_RED)) 
+			GameError(gameErrorNS::FATAL_ERROR, "Red Point texture initialization failed");
+
+	if(!pointRedImage.initialize(graphics, 0, 0, 1, &pointRedTexture))
+			GameError(gameErrorNS::FATAL_ERROR, "Red Point image initialization failed");
+	
+	pointRedImage.setVisible(false);
+	pointRedImage.setX(GAME_WIDTH/2 - pointRedImage.getWidth()/2);
+	pointRedImage.setY(20);
 
 	// border initializations
 	if(!borderRedTexture.initialize(graphics, BORDER_RED_IMAGE)) 
@@ -185,6 +195,7 @@ void Snong::render()
 	ball.draw();
 	Player1.draw();
 	Player2.draw();
+	pointRedImage.draw();
 	graphics->spriteEnd();
 }
 
@@ -200,6 +211,7 @@ void Snong::releaseAll()
 	backgroundTexture.onLostDevice();
 	borderRedTexture.onLostDevice();
 	borderGreenTexture.onLostDevice();
+	pointRedTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -216,6 +228,7 @@ void Snong::resetAll()
 	backgroundTexture.onResetDevice();
 	borderRedTexture.onResetDevice();
 	borderGreenTexture.onResetDevice();
+	pointRedTexture.onResetDevice();
 	Game::resetAll();
     return;
 }

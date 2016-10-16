@@ -32,6 +32,7 @@ const char BALL_IMAGE[] = "pictures\\ball.png";  // photo source NASA/courtesy o
 const char BACKGROUND_IMAGE[] = "pictures\\background2.png";
 const char BORDER_RED_IMAGE[] = "pictures\\borderRed.png";
 const char BORDER_GREEN_IMAGE[] = "pictures\\borderGreen.png";
+const char POINT_RED[] = "pictures\\pointRed.png";
 
 // window
 const char CLASS_NAME[] = "Snong";
