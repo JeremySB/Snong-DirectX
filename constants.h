@@ -30,7 +30,8 @@
 //const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
 const char BALL_IMAGE[] = "pictures\\ball.png";  // photo source NASA/courtesy of nasaimages.org 
 const char BACKGROUND_IMAGE[] = "pictures\\background2.png";
-const char BORDER_IMAGE[] = "pictures\\laser.png";
+const char BORDER_RED_IMAGE[] = "pictures\\borderRed.png";
+const char BORDER_GREEN_IMAGE[] = "pictures\\borderGreen.png";
 
 // window
 const char CLASS_NAME[] = "Snong";

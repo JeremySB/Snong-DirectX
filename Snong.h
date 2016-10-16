@@ -28,7 +28,8 @@ private:
 	Image borderImage2;
 	TextureManager ballTexture;
 	TextureManager backgroundTexture;
-	TextureManager borderTexture;
+	TextureManager borderRedTexture;
+	TextureManager borderGreenTexture;
 	float timeSinceLastMove;
 
 public:

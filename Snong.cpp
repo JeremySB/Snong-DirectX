@@ -47,17 +47,20 @@ void Snong::initialize(HWND hwnd)
 
 
 	// border initializations
-	if(!borderTexture.initialize(graphics, BORDER_IMAGE)) 
+	if(!borderRedTexture.initialize(graphics, BORDER_RED_IMAGE)) 
 			GameError(gameErrorNS::FATAL_ERROR, "Border texture initialization failed");
 
-	if(!borderImage1.initialize(graphics, 0, GAME_HEIGHT, 0, &borderTexture))
+	if(!borderGreenTexture.initialize(graphics, BORDER_GREEN_IMAGE)) 
+			GameError(gameErrorNS::FATAL_ERROR, "Border texture initialization failed");
+
+	if(!borderImage1.initialize(graphics, BORDER_VERTICAL_WIDTH, GAME_HEIGHT, 0, &borderRedTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Border image initialization failed");
-	borderImage1.setX(GAME_WIDTH/2 - WIDTH_BETWEEN_ARENAS/2 - borderImage1.getWidth());
+	borderImage1.setX(0);
 	borderImage1.setY(0);
 
-	if(!borderImage2.initialize(graphics, 0, GAME_HEIGHT, 0, &borderTexture))
+	if(!borderImage2.initialize(graphics, BORDER_VERTICAL_WIDTH, GAME_HEIGHT, 0, &borderGreenTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Border image initialization failed");
-	borderImage2.setX(GAME_WIDTH/2 + WIDTH_BETWEEN_ARENAS/2);
+	borderImage2.setX(GAME_WIDTH - borderImage2.getWidth());
 	borderImage2.setY(0);
 
 	// ball initializations
@@ -195,7 +198,8 @@ void Snong::releaseAll()
 	Player2.onLostDevice();
     ballTexture.onLostDevice();
 	backgroundTexture.onLostDevice();
-	borderTexture.onLostDevice();
+	borderRedTexture.onLostDevice();
+	borderGreenTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -210,7 +214,8 @@ void Snong::resetAll()
 	Player2.onResetDevice();
     ballTexture.onResetDevice();
 	backgroundTexture.onResetDevice();
-	borderTexture.onResetDevice();
+	borderRedTexture.onResetDevice();
+	borderGreenTexture.onResetDevice();
 	Game::resetAll();
     return;
 }
