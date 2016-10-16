@@ -27,12 +27,15 @@ private:
 	Image borderImage1;
 	Image borderImage2;
 	Image pointRedImage;
+	Image pointGreenImage;
 	TextureManager ballTexture;
 	TextureManager backgroundTexture;
 	TextureManager borderRedTexture;
 	TextureManager borderGreenTexture;
 	TextureManager pointRedTexture;
+	TextureManager pointGreenTexture;
 	float timeSinceLastMove;
+	float timeSincePointDisplayed;
 
 public:
     // Constructor

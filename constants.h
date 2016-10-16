@@ -33,6 +33,7 @@ const char BACKGROUND_IMAGE[] = "pictures\\background2.png";
 const char BORDER_RED_IMAGE[] = "pictures\\borderRed.png";
 const char BORDER_GREEN_IMAGE[] = "pictures\\borderGreen.png";
 const char POINT_RED[] = "pictures\\pointRed.png";
+const char POINT_GREEN[] = "pictures\\pointGreen.png";
 
 // window
 const char CLASS_NAME[] = "Snong";
@@ -49,6 +50,7 @@ const float FRAME_RATE  = 60.0f;               // the target frame rate (frames/
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate
 const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 frame
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
+const float POINT_DISPLAY_TIME = 1;
 
 // Board constants
 const UINT BOARD_WIDTH = GAME_WIDTH/10;

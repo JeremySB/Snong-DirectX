@@ -11,7 +11,7 @@
 // Constructor
 //=============================================================================
 Snong::Snong():timeSinceLastMove(0){
-	// todo: currently has error because players aren't constructed.
+	timeSincePointDisplayed = 0;
 }
 
 //=============================================================================
@@ -45,7 +45,7 @@ void Snong::initialize(HWND hwnd)
 	backgroundImage.setX(0);
 	backgroundImage.setY(0);
 
-	// point text initialization
+	// red point text initialization
 	if(!pointRedTexture.initialize(graphics, POINT_RED)) 
 			GameError(gameErrorNS::FATAL_ERROR, "Red Point texture initialization failed");
 
@@ -55,6 +55,17 @@ void Snong::initialize(HWND hwnd)
 	pointRedImage.setVisible(false);
 	pointRedImage.setX(GAME_WIDTH/2 - pointRedImage.getWidth()/2);
 	pointRedImage.setY(20);
+
+	// red point text initialization
+	if(!pointGreenTexture.initialize(graphics, POINT_GREEN)) 
+			GameError(gameErrorNS::FATAL_ERROR, "Green Point texture initialization failed");
+
+	if(!pointGreenImage.initialize(graphics, 0, 0, 1, &pointGreenTexture))
+			GameError(gameErrorNS::FATAL_ERROR, "Green Point image initialization failed");
+	
+	pointGreenImage.setVisible(false);
+	pointGreenImage.setX(GAME_WIDTH/2 - pointGreenImage.getWidth()/2);
+	pointGreenImage.setY(20);
 
 	// border initializations
 	if(!borderRedTexture.initialize(graphics, BORDER_RED_IMAGE)) 
@@ -130,13 +141,30 @@ void Snong::update()
 		timeSinceLastMove = 0;
 	}
 
+	// hide point text if it's been displayed for a while
+	if(pointRedImage.getVisible() || pointGreenImage.getVisible()) {
+		if((timeSincePointDisplayed += frameTime) >= POINT_DISPLAY_TIME) {
+			pointRedImage.setVisible(false);
+			pointGreenImage.setVisible(false);
+			timeSincePointDisplayed = 0;
+		}
+	}
+
 	if(Player1.isDead() || Player2.isDead()){
+		if(!(Player1.isDead() && Player2.isDead())) {
+			if(Player1.isDead()) {
+				Player2Score++;
+				pointGreenImage.setVisible(true);
+			}
+			else {
+				Player1Score++;
+				pointRedImage.setVisible(true);
+			}
+		}
+		
 		Player1.wipe();
 		Player2.wipe();
 		ball.reset();
-
-		if(!(Player1.isDead() && Player2.isDead()))
-			(Player1.isDead() ? Player2Score : Player1Score)++;
 	}
 }
 
@@ -196,6 +224,7 @@ void Snong::render()
 	Player1.draw();
 	Player2.draw();
 	pointRedImage.draw();
+	pointGreenImage.draw();
 	graphics->spriteEnd();
 }
 
@@ -212,6 +241,7 @@ void Snong::releaseAll()
 	borderRedTexture.onLostDevice();
 	borderGreenTexture.onLostDevice();
 	pointRedTexture.onLostDevice();
+	pointGreenTexture.onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -229,6 +259,7 @@ void Snong::resetAll()
 	borderRedTexture.onResetDevice();
 	borderGreenTexture.onResetDevice();
 	pointRedTexture.onResetDevice();
+	pointGreenTexture.onResetDevice();
 	Game::resetAll();
     return;
 }
