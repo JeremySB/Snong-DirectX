@@ -143,11 +143,16 @@ void Snong::update()
 
 	// hide point text if it's been displayed for a while
 	if(pointRedImage.getVisible() || pointGreenImage.getVisible()) {
+		Sleep(1000);
+		pointRedImage.setVisible(false);
+		pointGreenImage.setVisible(false);
+		/*
 		if((timeSincePointDisplayed += frameTime) >= POINT_DISPLAY_TIME) {
 			pointRedImage.setVisible(false);
 			pointGreenImage.setVisible(false);
 			timeSincePointDisplayed = 0;
 		}
+		*/
 	}
 
 	if(Player1.isDead() || Player2.isDead()){
