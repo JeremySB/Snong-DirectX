@@ -114,12 +114,18 @@
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="pictures\ball.jpg" />
+    <Image Include="pictures\background.png" />
+    <Image Include="pictures\background2.png" />
     <Image Include="pictures\ball.png" />
+    <Image Include="pictures\borderGreen.png" />
+    <Image Include="pictures\borderRed.png" />
     <Image Include="pictures\HeadTextureP1.png" />
     <Image Include="pictures\HeadTextureP2.png" />
+    <Image Include="pictures\laser.png" />
     <Image Include="pictures\LinkTextureP1.png" />
     <Image Include="pictures\LinkTextureP2.png" />
+    <Image Include="pictures\pointGreen.png" />
+    <Image Include="pictures\pointRed.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

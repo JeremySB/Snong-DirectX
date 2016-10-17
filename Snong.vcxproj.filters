@@ -88,9 +88,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="pictures\ball.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="pictures\ball.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -104,6 +101,27 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="pictures\LinkTextureP2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\background2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\borderGreen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\borderRed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\laser.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\pointGreen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\pointRed.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

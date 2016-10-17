@@ -100,7 +100,7 @@ void Snake::move(){
 	}
 	VECTOR2 next(movement.x + links[0].boardX, movement.y + links[0].boardY);
 	
-	if(next.x < 0 || next.x > BOARD_WIDTH || next.y < 0 || next.y > BOARD_HEIGHT)
+	if(next.x < 0 + 1 || next.x >= BOARD_WIDTH - 1 || next.y < 0 || next.y >= BOARD_HEIGHT)
 		dead = true;
 
 	for(int currentLink = linksUsed - 1; currentLink > 0; --currentLink){
