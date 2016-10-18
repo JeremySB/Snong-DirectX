@@ -18,7 +18,10 @@
 class Snong : public Game
 {
 private:
-    // variables
+	bool firstRound;
+	bool victoryScreen;
+	
+	// variables
 	Snake Player1, Player2;
 	
 	Entity **P1Head;
@@ -46,6 +49,7 @@ private:
     
 	bool gamePaused;
 	TextDX *spaceBarMessage;
+	TextDX *scoreText;
 public:
     // Constructor
     Snong();
