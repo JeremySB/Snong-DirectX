@@ -91,11 +91,10 @@ void Snong::initialize(HWND hwnd)
 	if(!ball.initialize(this, 0, 0, 1, &ballTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Ball image initialization failed");
 
-	Player1.setMovementDirection(Right);
-	Player2.setMovementDirection(Left);
+	Player1.setMovementDirection(P1_DEFAULT_DIRECTION);
+	Player2.setMovementDirection(P2_DEFAULT_DIRECTION);
 	P1Head = Player1.getEntities();
 	P2Head = Player2.getEntities();
-    //audio->initialize();
     audio->playCue("BGM");
     return;
 }
@@ -168,6 +167,8 @@ void Snong::update()
 		Player1.wipe();
 		Player2.wipe();
 		ball.reset();
+        Player1.setMovementDirection(P1_DEFAULT_DIRECTION);
+        Player2.setMovementDirection(P2_DEFAULT_DIRECTION);
         gamePaused = true;
 	}
 #pragma endregion
@@ -189,16 +190,16 @@ void Snong::collisions()
     bool collided = false;
 	
 	// left border
-	if(ball.getX() <= BORDER_VERTICAL_WIDTH && ball.getVelocity().x <= 0) {
+	if(ball.getX() <= -ball.getScale()*ball.getWidth()/*BORDER_VERTICAL_WIDTH*/  && ball.getVelocity().x <= 0) {
 		Player1.setDead(true);
-        collided = true;
+        //collided = true;
 		//ball.reset();
 	}
 
 	// right border
-	if(ball.getX() + ball.getWidth()*ball.getScale() >= GAME_WIDTH - BORDER_VERTICAL_WIDTH && ball.getVelocity().x >= 0) {
+	if(ball.getX() /*+ ball.getWidth()*ball.getScale()*/ >= GAME_WIDTH - BORDER_VERTICAL_WIDTH && ball.getVelocity().x >= 0) {
 		Player2.setDead(true);
-        collided = true;
+        //collided = true;
 		//ball.reset();
 	}
     // top/bottom wall collision

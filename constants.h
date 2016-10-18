@@ -8,6 +8,9 @@
 
 #include <windows.h>
 
+// enum to store what direction we are moving
+enum Direction { Up, Down, Left, Right };
+
 //-----------------------------------------------
 // Useful macros
 //-----------------------------------------------
@@ -64,23 +67,23 @@ const FLOAT BOARD_CELL_HEIGHT = (float) GAME_HEIGHT / (float) BOARD_HEIGHT;
 const UINT SNAKE_MAX_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / 30;
 const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 6;/// 8;//4;
 const FLOAT SNAKE_MASS = 5;
-const RECT SNAKE_LINK_RECT = {-BOARD_CELL_WIDTH/2, -BOARD_CELL_HEIGHT/2, BOARD_CELL_WIDTH/2, BOARD_CELL_HEIGHT/2};
 const RECT SNAKE_LINK_RECT = {(LONG) -BOARD_CELL_WIDTH/2, (LONG) -BOARD_CELL_HEIGHT/2, (LONG) BOARD_CELL_WIDTH/2, (LONG)BOARD_CELL_HEIGHT/2};
 const FLOAT SNAKE_LINK_RADIUS = sqrt(pow(BOARD_CELL_WIDTH/2,2)+pow(BOARD_CELL_HEIGHT/2,2));
 const UINT SNAKE_LINK_MASS = 500;
+const FLOAT SNAKE_UPDATE_TIME = 0.05f;
 const char SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP1.png";
 const char SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
 
 const char P1_SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP1.png";
 const char P1_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP1.png";
+const Direction P1_DEFAULT_DIRECTION = Left;
+const Direction P2_DEFAULT_DIRECTION = Right;
 
 const char P2_SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP2.png";
 const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
 // Ball constants
-const float BALL_STARTING_SPEED = 80;
-const float BALL_STARTING_SPEED = 90;//80;
+const float BALL_STARTING_SPEED = 85;//80;
 const float BALL_SCALE = 0.3f;
-const FLOAT BALL_SPEED_MODIFIER = 1.2;
 const FLOAT BALL_SPEED_MODIFIER = 1.2f;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used

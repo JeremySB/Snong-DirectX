@@ -7,8 +7,7 @@
 #include "game.h"
 
 
-// enum to store what direction we are moving
-enum Direction {Up,Down,Left,Right};
+
 
 class Snake {
 public:
