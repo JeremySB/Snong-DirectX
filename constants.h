@@ -31,11 +31,12 @@ enum Direction { Up, Down, Left, Right };
 //-----------------------------------------------
 // graphic images
 //const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
-const char BACKGROUND_IMAGE[] = "pictures\\background2.png";
+const char BACKGROUND_IMAGE[] = "pictures\\background3.png";//"pictures\\background2.png";
 const char BORDER_RED_IMAGE[] = "pictures\\borderRed.png";
 const char BORDER_GREEN_IMAGE[] = "pictures\\borderGreen.png";
 const char POINT_RED[] = "pictures\\pointRed.png";
 const char POINT_GREEN[] = "pictures\\pointGreen.png";
+
 
 // window
 const char CLASS_NAME[] = "Snong";

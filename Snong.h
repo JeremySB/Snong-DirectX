@@ -46,7 +46,6 @@ private:
     
 	bool gamePaused;
 	TextDX *spaceBarMessage;
-	TextDX *pointMessage;
 public:
     // Constructor
     Snong();

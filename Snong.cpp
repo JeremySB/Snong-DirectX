@@ -13,7 +13,6 @@
 Snong::Snong():timeSinceLastMove(0){
 	timeSincePointDisplayed = 0;
 	spaceBarMessage = new TextDX();
-	pointMessage = new TextDX();
 }
 
 //=============================================================================
@@ -25,7 +24,6 @@ Snong::~Snong()
 	SAFE_DELETE_ARRAY(P1Head);
 	SAFE_DELETE_ARRAY(P2Head);
 	SAFE_DELETE(spaceBarMessage);
-	SAFE_DELETE(pointMessage);
 }
 
 //=============================================================================
@@ -46,8 +44,10 @@ void Snong::initialize(HWND hwnd)
 
 	if(!backgroundImage.initialize(graphics, 0, 0, 1, &backgroundTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Background image initialization failed");
-	backgroundImage.setX(0);
-	backgroundImage.setY(0);
+	backgroundImage.setScale(0.444444f);
+	backgroundImage.setX(GAME_WIDTH/2-backgroundImage.getWidth()*backgroundImage.getScale()/2);//0);
+	backgroundImage.setY(GAME_HEIGHT/2 - backgroundImage.getHeight() * backgroundImage.getScale()/2);//-backgroundImage.getWidth()*backgroundImage.getScale()/2);
+
 
 	// red point text initialization
 	if(!pointRedTexture.initialize(graphics, POINT_RED)) 
@@ -107,12 +107,9 @@ void Snong::initialize(HWND hwnd)
 	ball.setFrames(BALL_MOVEMENT_START, BALL_MOVEMENT_END);
 	ball.setCurrentFrame(BALL_MOVEMENT_START);
 	ball.setFrameDelay(BALL_ANIMATION_UPDATE_TIME);
-
+	ball.reset();
     if(spaceBarMessage->initialize(graphics, 30, true, false, "Arial") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
-
-	if(pointMessage->initialize(graphics, 30, true, false, "Arial") == false)
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	return;
 }
 
@@ -304,7 +301,7 @@ void Snong::releaseAll()
 	pointGreenTexture.onLostDevice();
 
 	spaceBarMessage->onLostDevice();
-	pointMessage->onLostDevice();
+
 	Game::releaseAll();
     return;
 }
@@ -326,8 +323,7 @@ void Snong::resetAll()
 	
 	pointRedTexture.onResetDevice();
 	pointGreenTexture.onResetDevice();
-	
-	pointMessage->onResetDevice();
+
 	Game::resetAll();
     return;
 }

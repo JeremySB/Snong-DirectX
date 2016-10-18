@@ -36,8 +36,10 @@ void Snake::initialize(Game *game, int x, int y,  const char *headTexture, const
 	}
 	
 	//links[linksUsed++].inUse = true;
-	links[linksUsed++].setVisible(true);
-	updateLink(links[linksUsed], defaultX, defaultY);
+	links[linksUsed].setVisible(true);
+	links[linksUsed].setActive(true);
+
+	updateLink(links[linksUsed++], defaultX, defaultY);
 	appendNum--;
 
 	this->initialized = true;
@@ -45,6 +47,7 @@ void Snake::initialize(Game *game, int x, int y,  const char *headTexture, const
 
 Snake::Link::Link(): Entity(), boardX(0),boardY(0){
 	edge = SNAKE_LINK_RECT;
+	
 	spriteData.rect = SNAKE_LINK_RECT;
 	radius = SNAKE_LINK_RADIUS;
 	mass = SNAKE_LINK_MASS;
