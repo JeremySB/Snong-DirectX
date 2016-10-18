@@ -39,8 +39,8 @@ const char POINT_RED[] = "pictures\\pointRed.png";
 const char POINT_GREEN[] = "pictures\\pointGreen.png";
 
 // colors
-const D3DCOLOR red = D3DCOLOR_XRGB(255, 0, 16);
-const D3DCOLOR green = D3DCOLOR_XRGB(76, 236, 0);
+const D3DCOLOR RED_COLOR = D3DCOLOR_XRGB(255, 0, 16);
+const D3DCOLOR GREEN_COLOR = D3DCOLOR_XRGB(76, 236, 0);
 
 // window
 const char CLASS_NAME[] = "Snong";

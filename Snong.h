@@ -20,7 +20,8 @@ class Snong : public Game
 private:
 	bool firstRound;
 	bool victoryScreen;
-	int winner; // 0 is red, 1 is green
+
+	enum Players{none, red, green} winner, lastPoint;
 	
 	// variables
 	Snake Player1, Player2;
@@ -35,15 +36,11 @@ private:
 	Image backgroundImage;
 	Image borderImage1;
 	Image borderImage2;
-	Image pointRedImage;
-	Image pointGreenImage;
 
 	TextureManager ballTexture;
 	TextureManager backgroundTexture;
 	TextureManager borderRedTexture;
 	TextureManager borderGreenTexture;
-	TextureManager pointRedTexture;
-	TextureManager pointGreenTexture;
 	
 	float timeSinceLastMove;
 	float timeSincePointDisplayed;
@@ -52,6 +49,7 @@ private:
 	TextDX *spaceBarMessage;
 	TextDX *scoreText;
 	TextDX *victoryText;
+	TextDX *roundText;
 public:
     // Constructor
     Snong();
