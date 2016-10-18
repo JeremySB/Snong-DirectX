@@ -1,7 +1,8 @@
 // Programming 2D Games
 // Copyright (c) 2011,2012 by:
 // Charles Kelly
-// Chapter 6 graphics.cpp v1.1
+// graphics.cpp v1.1
+
 
 #include "graphics.h"
 
@@ -92,6 +93,10 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
     if (FAILED(result))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D sprite"));
 
+    // Configure for alpha blend of primitives
+    device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    device3d->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    device3d->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 //=============================================================================
@@ -172,6 +177,117 @@ HRESULT Graphics::loadTexture(const char *filename, COLOR_ARGB transcolor,
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
     }
     return result;
+}
+
+//=============================================================================
+// Load the texture into system memory (system memory is lockable)
+// Provides direct access to pixel data. Use the TextureManager class to load
+// textures for display.
+// Pre: filename is name of texture file.
+//      transcolor transparent color
+// Post: width and height = size of texture
+//       texture points to texture
+// Returns HRESULT and fills TextureData structure.
+//=============================================================================
+HRESULT Graphics::loadTextureSystemMem(const char *filename, COLOR_ARGB transcolor, 
+                                    UINT &width, UINT &height, LP_TEXTURE &texture)
+{
+    // The struct for reading bitmap file info
+    D3DXIMAGE_INFO info;
+    result = E_FAIL;        // Standard Windows return value
+
+    try{
+        if(filename == NULL)
+        {
+            texture = NULL;
+            return D3DERR_INVALIDCALL;
+        }
+ 
+        // Get width and height from bitmap file
+        result = D3DXGetImageInfoFromFile(filename, &info);
+        if (result != D3D_OK)
+            return result;
+        width = info.Width;
+        height = info.Height;
+
+        // Create the new texture by loading a bitmap image file
+        result = D3DXCreateTextureFromFileEx( 
+            device3d,           //3D device
+            filename,           //bitmap filename
+            info.Width,         //bitmap image width
+            info.Height,        //bitmap image height
+            1,                  //mip-map levels (1 for no chain)
+            0,                  //usage
+            D3DFMT_UNKNOWN,     //surface format (default)
+            D3DPOOL_SYSTEMMEM,  //systemmem is lockable
+            D3DX_DEFAULT,       //image filter
+            D3DX_DEFAULT,       //mip filter
+            transcolor,         //color key for transparency
+            &info,              //bitmap file info (from loaded file)
+            NULL,               //color palette
+            &texture );         //destination texture
+
+    } catch(...)
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
+    }
+    return result;
+}
+
+//=============================================================================
+// Create a vertex buffer.
+// Pre: verts[] contains vertex data.
+//      size = size of verts[]
+// Post: &vertexBuffer points to buffer if successful.
+//=============================================================================
+HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER &vertexBuffer)
+{
+    // Standard Windows return value
+    HRESULT result = E_FAIL;
+
+    // Create a vertex buffer
+    result = device3d->CreateVertexBuffer(size, D3DUSAGE_WRITEONLY, D3DFVF_VERTEX,
+                                            D3DPOOL_DEFAULT, &vertexBuffer, NULL);
+    if(FAILED(result))
+        return result;
+
+    void *ptr;
+    // must lock buffer before data can be transferred in
+    result = vertexBuffer->Lock(0, size, (void**)&ptr, 0);
+    if(FAILED(result))
+        return result;
+    memcpy(ptr, verts, size);   // copy vertex data into buffer
+    vertexBuffer->Unlock();     // unlock buffer
+
+    return result;
+}
+
+//=============================================================================
+// Display a quad with alpha transparency using Triangle Fan
+// Pre: createVertexBuffer was used to create vertexBuffer containing four
+//      vertices defining the quad in clockwise order.
+//      g3ddev->BeginScene was called
+// Post: Quad is drawn
+//=============================================================================
+bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer)
+{
+    HRESULT result = E_FAIL;    // standard Windows return value
+
+    if(vertexBuffer == NULL)
+        return false;
+     
+    device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, true); // enable alpha blend
+
+    device3d->SetStreamSource(0, vertexBuffer, 0, sizeof(VertexC));
+    device3d->SetFVF(D3DFVF_VERTEX);
+    result = device3d->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+
+    device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, false); // alpha blend off
+    
+    if(FAILED(result))
+        return false;
+
+    return true;
 }
 
 //=============================================================================
@@ -288,6 +404,11 @@ HRESULT Graphics::reset()
     initD3Dpp();                        // init D3D presentation parameters
     sprite->OnLostDevice();
     result = device3d->Reset(&d3dpp);   // attempt to reset graphics device
+
+    // Configure for alpha blend of primitives
+    device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    device3d->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    device3d->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
     sprite->OnResetDevice();
     return result;

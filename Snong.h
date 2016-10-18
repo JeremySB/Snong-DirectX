@@ -10,6 +10,7 @@
 #include "game.h"
 #include "Snake.h"
 #include "Ball.h"
+#include "textDX.h"
 
 //=============================================================================
 // Create game class
@@ -19,25 +20,33 @@ class Snong : public Game
 private:
     // variables
 	Snake Player1, Player2;
+	
 	Entity **P1Head;
 	Entity **P2Head;
+	
 	UINT Player1Score, Player2Score;
+	
 	Ball ball; // ball entity
+	
 	Image backgroundImage;
 	Image borderImage1;
 	Image borderImage2;
 	Image pointRedImage;
 	Image pointGreenImage;
+
 	TextureManager ballTexture;
 	TextureManager backgroundTexture;
 	TextureManager borderRedTexture;
 	TextureManager borderGreenTexture;
 	TextureManager pointRedTexture;
 	TextureManager pointGreenTexture;
+	
 	float timeSinceLastMove;
 	float timeSincePointDisplayed;
-    bool gamePaused;
-
+    
+	bool gamePaused;
+	TextDX *spaceBarMessage;
+	TextDX *pointMessage;
 public:
     // Constructor
     Snong();

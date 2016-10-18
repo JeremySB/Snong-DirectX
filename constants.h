@@ -31,7 +31,6 @@ enum Direction { Up, Down, Left, Right };
 //-----------------------------------------------
 // graphic images
 //const char NEBULA_IMAGE[] = "pictures\\orion.jpg";  // photo source NASA/courtesy of nasaimages.org 
-const char BALL_IMAGE[] = "pictures\\ball.png";  // photo source NASA/courtesy of nasaimages.org 
 const char BACKGROUND_IMAGE[] = "pictures\\background2.png";
 const char BORDER_RED_IMAGE[] = "pictures\\borderRed.png";
 const char BORDER_GREEN_IMAGE[] = "pictures\\borderGreen.png";
@@ -65,7 +64,7 @@ const FLOAT BOARD_CELL_HEIGHT = (float) GAME_HEIGHT / (float) BOARD_HEIGHT;
 
 // Snake constants
 const UINT SNAKE_MAX_LENGTH = (BOARD_WIDTH * BOARD_HEIGHT) / 30;
-const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 6;/// 8;//4;
+const UINT SNAKE_HEAD_SIZE = SNAKE_MAX_LENGTH / 6;
 const FLOAT SNAKE_MASS = 5;
 const RECT SNAKE_LINK_RECT = {(LONG) -BOARD_CELL_WIDTH/2, (LONG) -BOARD_CELL_HEIGHT/2, (LONG) BOARD_CELL_WIDTH/2, (LONG)BOARD_CELL_HEIGHT/2};
 const FLOAT SNAKE_LINK_RADIUS = sqrt(pow(BOARD_CELL_WIDTH/2,2)+pow(BOARD_CELL_HEIGHT/2,2));
@@ -81,10 +80,20 @@ const Direction P2_DEFAULT_DIRECTION = Right;
 
 const char P2_SNAKE_LINK_TEXTURE[] = "pictures\\LinkTextureP2.png";
 const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
+
 // Ball constants
-const float BALL_STARTING_SPEED = 85;//80;
+const char BALL_IMAGE[] = "pictures\\Ball Sprite.png";
+const float BALL_STARTING_SPEED = 85;
 const float BALL_SCALE = 0.3f;
 const FLOAT BALL_SPEED_MODIFIER = 1.2f;
+const UINT BALL_ANIMATION_COLUMNS = 8;
+const UINT BALL_ANIMATION_ROWS = 8;
+const UINT BALL_ANIMATION_WIDTH = 1024 / BALL_ANIMATION_COLUMNS;
+const UINT BALL_ANIMATION_HEIGHT = 1024 / BALL_ANIMATION_ROWS;
+const UINT BALL_MOVEMENT_START = 3 * BALL_ANIMATION_COLUMNS;
+const UINT BALL_MOVEMENT_END = 4 * BALL_ANIMATION_COLUMNS;
+const FLOAT BALL_ANIMATION_UPDATE_TIME = .05f;
+
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
@@ -94,9 +103,9 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
-const char WAVE_BANK[]  = "audio\\Win\\Wave\ Bank.xwb";
+const char WAVE_BANK[]  = "audio\\Win\\Wave Bank.xwb";
 // SOUND_BANK must be location of .xsb file.
-const char SOUND_BANK[] = "audio\\Win\\Sound\ Bank.xsb";
+const char SOUND_BANK[] = "audio\\Win\\Sound Bank.xsb";
 
 const UCHAR P1_UP = 'W';
 const UCHAR P1_DOWN = 'S';

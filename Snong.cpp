@@ -12,6 +12,8 @@
 //=============================================================================
 Snong::Snong():timeSinceLastMove(0){
 	timeSincePointDisplayed = 0;
+	spaceBarMessage = new TextDX();
+	pointMessage = new TextDX();
 }
 
 //=============================================================================
@@ -20,8 +22,10 @@ Snong::Snong():timeSinceLastMove(0){
 Snong::~Snong()
 {
     releaseAll();           // call onLostDevice() for every graphics item
-	delete[] P1Head;
-	delete[] P2Head;
+	SAFE_DELETE_ARRAY(P1Head);
+	SAFE_DELETE_ARRAY(P2Head);
+	SAFE_DELETE(spaceBarMessage);
+	SAFE_DELETE(pointMessage);
 }
 
 //=============================================================================
@@ -53,7 +57,7 @@ void Snong::initialize(HWND hwnd)
 			GameError(gameErrorNS::FATAL_ERROR, "Red Point image initialization failed");
 	
 	pointRedImage.setVisible(false);
-	pointRedImage.setX(GAME_WIDTH/2 - pointRedImage.getWidth()/2);
+	pointRedImage.setX(GAME_WIDTH / 2 - pointRedImage.getWidth()/2);
 	pointRedImage.setY(20);
 
 	// red point text initialization
@@ -88,15 +92,28 @@ void Snong::initialize(HWND hwnd)
 	if(!ballTexture.initialize(graphics, BALL_IMAGE)) 
 			GameError(gameErrorNS::FATAL_ERROR, "Ball texture initialization failed");
 
-	if(!ball.initialize(this, 0, 0, 1, &ballTexture))
+	if(!ball.initialize(this, BALL_ANIMATION_WIDTH, BALL_ANIMATION_HEIGHT, BALL_ANIMATION_COLUMNS, &ballTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Ball image initialization failed");
 
 	Player1.setMovementDirection(P1_DEFAULT_DIRECTION);
 	Player2.setMovementDirection(P2_DEFAULT_DIRECTION);
+	
 	P1Head = Player1.getEntities();
 	P2Head = Player2.getEntities();
-    audio->playCue("BGM");
-    return;
+    
+	audio->playCue("BGM");
+
+	ball.setScale(BALL_SCALE);
+	ball.setFrames(BALL_MOVEMENT_START, BALL_MOVEMENT_END);
+	ball.setCurrentFrame(BALL_MOVEMENT_START);
+	ball.setFrameDelay(BALL_ANIMATION_UPDATE_TIME);
+
+    if(spaceBarMessage->initialize(graphics, 30, true, false, "Arial") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+
+	if(pointMessage->initialize(graphics, 30, true, false, "Arial") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	return;
 }
 
 //=============================================================================
@@ -247,14 +264,23 @@ void Snong::collisions()
 void Snong::render()
 {
 	graphics->spriteBegin();
+	
 	backgroundImage.draw();
+	
 	borderImage1.draw();
 	borderImage2.draw();
+	
 	ball.draw();
+	
 	Player1.draw();
 	Player2.draw();
+
 	pointRedImage.draw();
 	pointGreenImage.draw();
+	if(gamePaused){
+		spaceBarMessage->setFontColor(graphicsNS::WHITE);
+		spaceBarMessage->print("Press space bar to begin",GAME_WIDTH/2 - (5*30),GAME_HEIGHT/3 * 2);
+	}
 	graphics->spriteEnd();
 }
 
@@ -266,12 +292,19 @@ void Snong::releaseAll()
 {
 	Player1.onLostDevice();
 	Player2.onLostDevice();
-    ballTexture.onLostDevice();
+    
+	ballTexture.onLostDevice();
+	
 	backgroundTexture.onLostDevice();
+	
 	borderRedTexture.onLostDevice();
 	borderGreenTexture.onLostDevice();
+	
 	pointRedTexture.onLostDevice();
 	pointGreenTexture.onLostDevice();
+
+	spaceBarMessage->onLostDevice();
+	pointMessage->onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -284,12 +317,17 @@ void Snong::resetAll()
 {
 	Player1.onResetDevice();
 	Player2.onResetDevice();
-    ballTexture.onResetDevice();
+
+	ballTexture.onResetDevice();
 	backgroundTexture.onResetDevice();
+	
 	borderRedTexture.onResetDevice();
 	borderGreenTexture.onResetDevice();
+	
 	pointRedTexture.onResetDevice();
 	pointGreenTexture.onResetDevice();
+	
+	pointMessage->onResetDevice();
 	Game::resetAll();
     return;
 }

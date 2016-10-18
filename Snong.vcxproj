@@ -96,6 +96,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="Snong.cpp" />
+    <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -111,11 +112,13 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="Snong.h" />
+    <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="pictures\background.png" />
     <Image Include="pictures\background2.png" />
+    <Image Include="pictures\Ball Sprite.jpg" />
     <Image Include="pictures\ball.png" />
     <Image Include="pictures\borderGreen.png" />
     <Image Include="pictures\borderRed.png" />

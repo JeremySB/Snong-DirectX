@@ -48,6 +48,9 @@
     <ClCompile Include="audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="textDX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -86,6 +89,9 @@
     <ClInclude Include="audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="textDX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="pictures\ball.png">
@@ -122,6 +128,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="pictures\pointRed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pictures\Ball Sprite.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
