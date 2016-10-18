@@ -19,6 +19,16 @@ bool Ball::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 void Ball::update(float frameTime) {
 	Entity::update(frameTime);
 
+	// check ball min/max speeds
+	if (pow(velocity.x, 2) + pow(velocity.y, 2) < pow(BALL_MIN_SPEED, 2)) {
+		Graphics::Vector2Normalize(&velocity);
+		velocity *= BALL_MIN_SPEED;
+	}
+	else if (pow(velocity.x, 2) + pow(velocity.y, 2) > pow(BALL_MAX_SPEED, 2)) {
+		Graphics::Vector2Normalize(&velocity);
+		velocity *= BALL_MAX_SPEED;
+	}
+
 	setX(getX() + frameTime * velocity.x);
 	setY(getY() + frameTime * velocity.y);
  

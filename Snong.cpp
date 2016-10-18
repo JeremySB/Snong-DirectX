@@ -238,7 +238,6 @@ void Snong::ai()
 //=============================================================================
 void Snong::collisions()
 {
-	// todo: check every head link in Ball for collision
 	VECTOR2 collision;
     bool collided = false;
 	
