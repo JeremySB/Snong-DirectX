@@ -14,6 +14,7 @@ Snong::Snong():timeSinceLastMove(0){
 	timeSincePointDisplayed = 0;
 	spaceBarMessage = new TextDX();
 	scoreText = new TextDX();
+	victoryText = new TextDX();
 }
 
 //=============================================================================
@@ -26,6 +27,7 @@ Snong::~Snong()
 	SAFE_DELETE_ARRAY(P2Head);
 	SAFE_DELETE(spaceBarMessage);
 	SAFE_DELETE(scoreText);
+	SAFE_DELETE(victoryText);
 }
 
 //=============================================================================
@@ -39,6 +41,7 @@ void Snong::initialize(HWND hwnd)
 	Player1Score = 0;
 	Player2Score = 0;
 
+	gamePaused = true;
 	firstRound = true;
 	victoryScreen = false;
 	
@@ -116,11 +119,17 @@ void Snong::initialize(HWND hwnd)
 	ball.setCurrentFrame(BALL_MOVEMENT_START);
 	ball.setFrameDelay(BALL_ANIMATION_UPDATE_TIME);
 
+	// text initializations
+
     if(spaceBarMessage->initialize(graphics, 30, true, false, "Copperplate Gothic Bold") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font (Copperplate Gothic Bold)"));
 
 	if(scoreText->initialize(graphics, 20, true, false, "Copperplate Gothic Bold") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font (Copperplate Gothic Bold)"));
+
+	if(victoryText->initialize(graphics, 46, true, false, "Copperplate Gothic Bold") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font (Copperplate Gothic Bold)"));
+
 	return;
 }
 
@@ -200,8 +209,10 @@ void Snong::update()
 			// check for win
 			if (Player1Score >= VICTORY_POINTS) {
 				victoryScreen = true;
+				winner = 0;
 			}
 			else if (Player2Score >= VICTORY_POINTS) {
+				winner = 1;
 				victoryScreen = true;
 			}
 		}
@@ -300,8 +311,6 @@ void Snong::render()
 	Player1.draw();
 	Player2.draw();
 
-	pointRedImage.draw();
-	pointGreenImage.draw();
 
 	scoreText->setFontColor(graphicsNS::WHITE);
 	scoreText->print(std::to_string(Player1Score) + "  |  " + std::to_string(Player2Score), 0, GAME_HEIGHT * 9/10);
@@ -309,14 +318,24 @@ void Snong::render()
 	if(gamePaused){
 		spaceBarMessage->setFontColor(graphicsNS::WHITE);
 		if (victoryScreen) {
-
+			if (winner == 0) {
+				victoryText->setFontColor(red);
+				victoryText->print("Red Player Wins!", 0, GAME_HEIGHT / 5);
+			}
+			else {
+				victoryText->setFontColor(green);
+				victoryText->print("Green Player Wins!", 0, GAME_HEIGHT / 5);
+			}
+			spaceBarMessage->print("Press space bar to restart", 0, GAME_HEIGHT / 3 * 2.07);
 		}
 		else if (firstRound) {
-			spaceBarMessage->print("First player to " + std::to_string(VICTORY_POINTS) + " wins", 0, GAME_HEIGHT / 3.2);
-			spaceBarMessage->print("Press space bar to begin", 0, GAME_HEIGHT / 3 * 2);
+			spaceBarMessage->print("First player to " + std::to_string(VICTORY_POINTS) + " wins", 0, GAME_HEIGHT / 4.2);
+			spaceBarMessage->print("Press space bar to begin", 0, GAME_HEIGHT / 3 * 2.07);
 		}
 		else {
-			spaceBarMessage->print("Press space bar to continue", 0, GAME_HEIGHT / 3 * 2);
+			pointRedImage.draw();
+			pointGreenImage.draw();
+			spaceBarMessage->print("Press space bar to continue", 0, GAME_HEIGHT / 3 * 2.07);
 		}
 	}
 	graphics->spriteEnd();
@@ -343,6 +362,7 @@ void Snong::releaseAll()
 
 	spaceBarMessage->onLostDevice();
 	scoreText->onLostDevice();
+	victoryText->onLostDevice();
 	Game::releaseAll();
     return;
 }
@@ -366,6 +386,8 @@ void Snong::resetAll()
 	pointGreenTexture.onResetDevice();
 	
 	scoreText->onResetDevice();
+	spaceBarMessage->onResetDevice();
+	victoryText->onResetDevice();
 	Game::resetAll();
     return;
 }

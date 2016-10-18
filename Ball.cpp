@@ -7,12 +7,13 @@ Ball::Ball(void)
 }
 
 bool Ball::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM) {
+	bool result = Entity::initialize(gamePtr, width, height, ncols, textureM);
 	setScale(BALL_SCALE);
 	speed = BALL_STARTING_SPEED;
 	setCollisionRadius(getWidth()*getScale()/2);
 	reset();
 	activate();
-	return Entity::initialize(gamePtr, width, height, ncols, textureM);
+	return result;
 }
 
 void Ball::update(float frameTime) {

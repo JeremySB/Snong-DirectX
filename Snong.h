@@ -20,6 +20,7 @@ class Snong : public Game
 private:
 	bool firstRound;
 	bool victoryScreen;
+	int winner; // 0 is red, 1 is green
 	
 	// variables
 	Snake Player1, Player2;
@@ -50,6 +51,7 @@ private:
 	bool gamePaused;
 	TextDX *spaceBarMessage;
 	TextDX *scoreText;
+	TextDX *victoryText;
 public:
     // Constructor
     Snong();

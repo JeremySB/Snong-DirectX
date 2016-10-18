@@ -7,6 +7,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <d3d9.h>
 
 // enum to store what direction we are moving
 enum Direction { Up, Down, Left, Right };
@@ -37,15 +38,17 @@ const char BORDER_GREEN_IMAGE[] = "pictures\\borderGreen.png";
 const char POINT_RED[] = "pictures\\pointRed.png";
 const char POINT_GREEN[] = "pictures\\pointGreen.png";
 
+// colors
+const D3DCOLOR red = D3DCOLOR_XRGB(255, 0, 16);
+const D3DCOLOR green = D3DCOLOR_XRGB(76, 236, 0);
 
 // window
 const char CLASS_NAME[] = "Snong";
 const char GAME_TITLE[] = "Snong: The Game";
-//const char GAME_TITLE[] = "Snong";
 const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  640;               // width of game in pixels
 const UINT GAME_HEIGHT = 480;               // height of game in pixels
-const UINT WIDTH_BETWEEN_ARENAS = GAME_WIDTH/4;//80;		// width of the "no man's land" between snake arenas
+
 
 // game
 const double PI = 3.14159265;
