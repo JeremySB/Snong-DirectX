@@ -163,14 +163,12 @@ void Snake::onLostDevice(){
 	isInitialized();
 	headTexture.onLostDevice();
 	linkTexture.onLostDevice();
-	headTexture.onLostDevice();
 }
 
 void Snake::onResetDevice(){
 	isInitialized();
 	headTexture.onResetDevice();
 	linkTexture.onResetDevice();
-	headTexture.onResetDevice();
 }
 
 inline void Snake::isInitialized(){

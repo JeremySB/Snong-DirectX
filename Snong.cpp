@@ -148,7 +148,7 @@ void Snong::update()
             gamePaused = false;
 			if (victoryScreen) {
 				victoryScreen = false;
-				firstRound = true;
+				//firstRound = true;
 				Player1Score = 0;
 				Player2Score = 0;
 			}
@@ -338,6 +338,10 @@ void Snong::render()
 		else {
 			pointRedImage.draw();
 			pointGreenImage.draw();
+			if (!(pointRedImage.getVisible() || pointGreenImage.getVisible())) {
+				victoryText->setFontColor(graphicsNS::WHITE);
+				victoryText->print("Tie", 0, GAME_HEIGHT / 20);
+			}
 			spaceBarMessage->print("Press space bar to continue", 0, GAME_HEIGHT / 3 * 2.07);
 		}
 	}
