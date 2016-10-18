@@ -286,6 +286,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Bank Last Modified Low = 1133611477;
+    Bank Last Modified High = 30550260;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
