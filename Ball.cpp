@@ -21,20 +21,6 @@ void Ball::update(float frameTime) {
 	setX(getX() + frameTime * velocity.x);
 	setY(getY() + frameTime * velocity.y);
  
-
-	// top/bottom wall collision
-	
-	// top border
-	if(getY() <= BORDER_HORIZONTAL_WIDTH && velocity.y <= 0) {
-		velocity.y *= -1;
-	}
-
-	// bottom border
-	if(getY() + getHeight()*getScale() >= GAME_HEIGHT - BORDER_HORIZONTAL_WIDTH 
-		&& velocity.y >= 0) {
-		velocity.y *= -1;
-	}
-
 }
 
 void Ball::reset() {

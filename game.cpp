@@ -18,6 +18,7 @@ Game::Game()
     graphics = NULL;
     audio = NULL;
     initialized = false;
+    audio = new Audio();
 }
 
 //=============================================================================
@@ -111,7 +112,7 @@ void Game::initialize(HWND hw)
 
     // init sound system
 	//todo: add audio
-	/*
+	
     audio = new Audio();
     if (*WAVE_BANK != '\0' && *SOUND_BANK != '\0')  // if sound files defined
     {
@@ -123,7 +124,7 @@ void Game::initialize(HWND hw)
                 throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system."));
         }
     }
-	*/
+	
 
     // attempt to set up high resolution timer
     if(QueryPerformanceFrequency(&timerFreq) == false)
@@ -233,7 +234,7 @@ void Game::run(HWND hwnd)
     renderGame();                   // draw all game items
     input->readControllers();       // read state of controllers
 
-    //audio->run();                       // perform periodic sound engine tasks
+    audio->run();                       // perform periodic sound engine tasks
 
     // if Alt+Enter toggle fullscreen/window
     if (input->isKeyDown(ALT_KEY) && input->wasKeyPressed(ENTER_KEY))

@@ -95,6 +95,8 @@ void Snong::initialize(HWND hwnd)
 	Player2.setMovementDirection(Left);
 	P1Head = Player1.getEntities();
 	P2Head = Player2.getEntities();
+    //audio->initialize();
+    audio->playCue("BGM");
     return;
 }
 
@@ -103,11 +105,17 @@ void Snong::initialize(HWND hwnd)
 //=============================================================================
 void Snong::update()
 {
-	ball.update(frameTime);
-
 #pragma region generalInput
 	if(input->isKeyDown(VK_ESCAPE))
 		exitGame();
+    if (gamePaused) {
+        if (input->isKeyDown(' ')){
+            gamePaused = false;
+            pointRedImage.setVisible(false);
+            pointGreenImage.setVisible(false);
+        }
+        return;
+    }
 #pragma endregion
 
 
@@ -135,26 +143,16 @@ void Snong::update()
 		Player2.setMovementDirection(Left);
 #pragma endregion
 
+#pragma region Movement
+    ball.update(frameTime);
 	if((timeSinceLastMove += frameTime) >= SNAKE_UPDATE_TIME){
 		Player1.move();
 		Player2.move();
 		timeSinceLastMove = 0;
 	}
+#pragma endregion
 
-	// hide point text if it's been displayed for a while
-	if(pointRedImage.getVisible() || pointGreenImage.getVisible()) {
-		Sleep(1000);
-		pointRedImage.setVisible(false);
-		pointGreenImage.setVisible(false);
-		/*
-		if((timeSincePointDisplayed += frameTime) >= POINT_DISPLAY_TIME) {
-			pointRedImage.setVisible(false);
-			pointGreenImage.setVisible(false);
-			timeSincePointDisplayed = 0;
-		}
-		*/
-	}
-
+#pragma region Death
 	if(Player1.isDead() || Player2.isDead()){
 		if(!(Player1.isDead() && Player2.isDead())) {
 			if(Player1.isDead()) {
@@ -170,7 +168,9 @@ void Snong::update()
 		Player1.wipe();
 		Player2.wipe();
 		ball.reset();
+        gamePaused = true;
 	}
+#pragma endregion
 }
 
 //=============================================================================
@@ -186,34 +186,58 @@ void Snong::collisions()
 {
 	// todo: check every head link in Ball for collision
 	VECTOR2 collision;
-
+    bool collided = false;
 	
 	// left border
 	if(ball.getX() <= BORDER_VERTICAL_WIDTH && ball.getVelocity().x <= 0) {
 		Player1.setDead(true);
+        collided = true;
 		//ball.reset();
 	}
 
 	// right border
 	if(ball.getX() + ball.getWidth()*ball.getScale() >= GAME_WIDTH - BORDER_VERTICAL_WIDTH && ball.getVelocity().x >= 0) {
 		Player2.setDead(true);
+        collided = true;
 		//ball.reset();
 	}
+    // top/bottom wall collision
+    VECTOR2 oldVelocity = ball.getVelocity();
+    // top border
+    if (ball.getY() <= BORDER_HORIZONTAL_WIDTH && oldVelocity.y <= 0) {
+        ball.setVelocity(VECTOR2(oldVelocity.x,oldVelocity.y *-1));
+        collided = true;
+    }
+
+    // bottom border
+    if (ball.getY() + ball.getHeight()*ball.getScale() >= GAME_HEIGHT - BORDER_HORIZONTAL_WIDTH
+        && oldVelocity.y >= 0) {
+        ball.setVelocity(VECTOR2(oldVelocity.x, oldVelocity.y *-1));
+        collided = true;
+    }
+
 
 	for( int i = 0; i < SNAKE_HEAD_SIZE; i++){
 		if(ball.collidesWith(*P1Head[i], collision)){
 			ball.bounce(collision,*P1Head[i]);
 			ball.setVelocity(ball.getVelocity() * BALL_SPEED_MODIFIER);
 			Player1.append(1);
+            collided = true;
 			break;
 		}
 		if(ball.collidesWith(*P2Head[i],collision)){
 			ball.bounce(collision, *P2Head[i]);
 			ball.setVelocity(ball.getVelocity() * BALL_SPEED_MODIFIER);
 			Player2.append(1);
+            collided = true;
 			break;
 		}
 	}
+    if(collided)
+        audio->playCue("Hit Sound");
+    /*if(ball.getVelocity() < 50){
+        ball.setVelocity(50);
+    }*/
 }
 
 //=============================================================================

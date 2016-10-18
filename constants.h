@@ -89,9 +89,9 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
 // audio files required by audio.cpp
 // WAVE_BANK must be location of .xwb file.
-const char WAVE_BANK[]  = "audio\\Win\\WavesExample1.xwb";
+const char WAVE_BANK[]  = "audio\\Win\\Wave\ Bank.xwb";
 // SOUND_BANK must be location of .xsb file.
-const char SOUND_BANK[] = "audio\\Win\\SoundsExample1.xsb";
+const char SOUND_BANK[] = "audio\\Win\\Sound\ Bank.xsb";
 
 const UCHAR P1_UP = 'W';
 const UCHAR P1_DOWN = 'S';

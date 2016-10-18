@@ -36,6 +36,7 @@ private:
 	TextureManager pointGreenTexture;
 	float timeSinceLastMove;
 	float timeSincePointDisplayed;
+    bool gamePaused;
 
 public:
     // Constructor
