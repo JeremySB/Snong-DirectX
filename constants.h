@@ -46,8 +46,8 @@ const D3DCOLOR green = D3DCOLOR_XRGB(76, 236, 0);
 const char CLASS_NAME[] = "Snong";
 const char GAME_TITLE[] = "Snong: The Game";
 const bool FULLSCREEN = false;              // windowed or fullscreen
-const UINT GAME_WIDTH =  640;               // width of game in pixels
-const UINT GAME_HEIGHT = 480;               // height of game in pixels
+const UINT GAME_WIDTH =  1280;//640;               // width of game in pixels
+const UINT GAME_HEIGHT = 720;//480;               // height of game in pixels
 
 
 // game
@@ -60,8 +60,8 @@ const float POINT_DISPLAY_TIME = 1;
 const UINT VICTORY_POINTS = 5;
 
 // Board constants
-const UINT BOARD_WIDTH = GAME_WIDTH/10;
-const UINT BOARD_HEIGHT = GAME_HEIGHT/10;
+const UINT BOARD_WIDTH = GAME_WIDTH/15;///10;
+const UINT BOARD_HEIGHT = GAME_HEIGHT/15;///10;
 const UINT BORDER_HORIZONTAL_WIDTH = 5;
 const UINT BORDER_VERTICAL_WIDTH = 5;
 const FLOAT BOARD_CELL_WIDTH = (float) GAME_WIDTH / (float) BOARD_WIDTH;
@@ -88,10 +88,10 @@ const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
 
 // Ball constants
 const char BALL_IMAGE[] = "pictures\\Ball Sprite.png";
-const float BALL_STARTING_SPEED = 95;
-const float BALL_MIN_SPEED = 75;
-const float BALL_MAX_SPEED = 170;
-const float BALL_SCALE = 0.3f;
+const FLOAT BALL_STARTING_SPEED = 95;
+const FLOAT BALL_MIN_SPEED = 75;
+const FLOAT BALL_MAX_SPEED = 180;
+const FLOAT BALL_SCALE = 0.4f;//0.3f;
 const FLOAT BALL_SPEED_MODIFIER = 1.2f;
 const UINT BALL_ANIMATION_COLUMNS = 8;
 const UINT BALL_ANIMATION_ROWS = 8;

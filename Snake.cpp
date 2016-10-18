@@ -35,7 +35,6 @@ void Snake::initialize(Game *game, int x, int y,  const char *headTexture, const
 		updateLink(links[i], defaultX, defaultY);
 	}
 	
-	//links[linksUsed++].inUse = true;
 	links[linksUsed].setVisible(true);
 	links[linksUsed].setActive(true);
 

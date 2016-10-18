@@ -55,7 +55,7 @@ void Snong::initialize(HWND hwnd)
 
 	if(!backgroundImage.initialize(graphics, 0, 0, 1, &backgroundTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Background image initialization failed");
-	backgroundImage.setScale(0.444444f);
+	backgroundImage.setScale((float)GAME_WIDTH/(float)backgroundImage.getWidth() );//0.444444f);
 	backgroundImage.setX(GAME_WIDTH/2-backgroundImage.getWidth()*backgroundImage.getScale()/2);//0);
 	backgroundImage.setY(GAME_HEIGHT/2 - backgroundImage.getHeight() * backgroundImage.getScale()/2);//-backgroundImage.getWidth()*backgroundImage.getScale()/2);
 
@@ -91,12 +91,14 @@ void Snong::initialize(HWND hwnd)
 
 	if(!borderImage1.initialize(graphics, BORDER_VERTICAL_WIDTH, GAME_HEIGHT, 0, &borderRedTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Border image initialization failed");
+    borderImage1.setScale(2);
 	borderImage1.setX(0);
 	borderImage1.setY(0);
 
 	if(!borderImage2.initialize(graphics, BORDER_VERTICAL_WIDTH, GAME_HEIGHT, 0, &borderGreenTexture))
 			GameError(gameErrorNS::FATAL_ERROR, "Border image initialization failed");
-	borderImage2.setX(GAME_WIDTH - borderImage2.getWidth());
+    borderImage2.setScale(3);
+	borderImage2.setX(GAME_WIDTH - borderImage2.getWidth() * borderImage2.getScale());
 	borderImage2.setY(0);
 
 	// ball initializations
@@ -286,8 +288,10 @@ void Snong::collisions()
 			break;
 		}
 	}
-    if(collided)
+    if(collided){
+        audio->stopCue("Hit Sound");
         audio->playCue("Hit Sound");
+    }
     /*if(ball.getVelocity() < 50){
         ball.setVelocity(50);
     }*/
