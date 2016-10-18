@@ -109,7 +109,7 @@ void Snong::initialize(HWND hwnd)
 	if(scoreText->initialize(graphics, 20, true, false, "Copperplate Gothic Bold") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font (Copperplate Gothic Bold)"));
 
-	if(victoryText->initialize(graphics, 60, true, false, "Copperplate Gothic Bold") == false)
+	if(victoryText->initialize(graphics, 100, true, false, "Copperplate Gothic Bold") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font (Copperplate Gothic Bold)"));
 
 	if (roundText->initialize(graphics, 45, true, false, "Copperplate Gothic Bold") == false)
@@ -299,23 +299,26 @@ void Snong::render()
 
 
 	scoreText->setFontColor(graphicsNS::WHITE);
-	scoreText->print(std::to_string(Player1Score) + "  |  " + std::to_string(Player2Score), 0, GAME_HEIGHT * 9/10);
+	scoreText->print(std::to_string(Player1Score) + "  |  " + std::to_string(Player2Score), 0, GAME_HEIGHT * 14/15);
 
 	if(gamePaused){
 		spaceBarMessage->setFontColor(graphicsNS::WHITE);
 		if (victoryScreen) {
 			if (winner == red) {
 				victoryText->setFontColor(RED_COLOR);
-				victoryText->print("Red Player Wins!", 0, GAME_HEIGHT / 5);
+				spaceBarMessage->setFontColor(RED_COLOR);
+				victoryText->print("Red Player Wins!", 0, GAME_HEIGHT / 20);
 			}
 			else if (winner == green) {
 				victoryText->setFontColor(GREEN_COLOR);
-				victoryText->print("Green Player Wins!", 0, GAME_HEIGHT / 5);
+				spaceBarMessage->setFontColor(GREEN_COLOR);
+				victoryText->print("Green Player Wins!", 0, GAME_HEIGHT / 20);
 			}
 			spaceBarMessage->print("Press space bar to restart", 0, GAME_HEIGHT / 3 * 2.07);
+			spaceBarMessage->setFontColor(graphicsNS::WHITE);
 		}
 		else if (firstRound) {
-			spaceBarMessage->print("First player to " + std::to_string(VICTORY_POINTS) + " wins", 0, GAME_HEIGHT / 4.2);
+			spaceBarMessage->print("First player to " + std::to_string(VICTORY_POINTS) + " wins\nControls are WASD and arrow keys", 0, GAME_HEIGHT / 4.2);
 			spaceBarMessage->print("Press space bar to begin", 0, GAME_HEIGHT / 3 * 2.07);
 		}
 		else {

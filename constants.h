@@ -88,8 +88,8 @@ const char P2_SNAKE_HEAD_TEXTURE[] = "pictures\\HeadTextureP2.png";
 
 // Ball constants
 const char BALL_IMAGE[] = "pictures\\Ball Sprite.png";
-const FLOAT BALL_STARTING_SPEED = 95;
-const FLOAT BALL_MIN_SPEED = 75;
+const FLOAT BALL_STARTING_SPEED = 105;
+const FLOAT BALL_MIN_SPEED = 85;
 const FLOAT BALL_MAX_SPEED = 180;
 const FLOAT BALL_SCALE = 0.4f;//0.3f;
 const FLOAT BALL_SPEED_MODIFIER = 1.2f;
