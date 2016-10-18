@@ -18,7 +18,6 @@ Game::Game()
     graphics = NULL;
     audio = NULL;
     initialized = false;
-    audio = new Audio();
 }
 
 //=============================================================================
